@@ -123,35 +123,21 @@ Item {
             anchors.margins: Utils.windowDragArea
             propagateComposedEvents: true
             acceptedButtons: Qt.LeftButton
-            property point clickPos: "0,0"
 
             onPressed: {
                 if (Qt.platform.os === "windows") {
                     return
                 }
-
-                clickPos = Qt.point(mouseX, mouseY)
+                if (window.isMaximized || window.isFullScreen || window.visibility === Window.Maximized) {
+                    return
+                }
+                window.startSystemMove()
             }
             onDoubleClicked: {
                 if (Qt.platform.os === "windows") {
                     return
                 }
                 toggleMaximized()
-            }
-            onPositionChanged: (mouse) => {
-                if (Qt.platform.os === "windows") {
-                    return
-                }
-
-                if (window.isMaximized || window.isFullScreen || window.visibility === Window.Maximized) {
-                    return
-                }
-
-                //鼠标偏移量
-                let delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
-
-                window.setX(window.x+delta.x)
-                window.setY(window.y+delta.y)
             }
         }
     }
