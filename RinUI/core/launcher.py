@@ -1,7 +1,7 @@
 import sys
 from ctypes import c_void_p
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 
 from PySide6.QtCore import QCoreApplication, QObject, QTimer, QUrl
 from PySide6.QtGui import QIcon
@@ -14,18 +14,18 @@ from .theme import ThemeManager
 
 
 class RinUIWindow:
-    def __init__(self, qml_path: Union[str, Path] = None):
+    def __init__(self, qml_path: Optional[Union[str, Path]] = None):
         """
         Create an application window with RinUI.
         If qml_path is provided, it will automatically load the specified QML file.
         :param qml_path: str or Path, QML file path (eg = "path/to/main.qml")
         """
         super().__init__()
-        self.windows = None
+        self.windows: list[QQuickWindow] = []
         if hasattr(self, "_initialized") and self._initialized:
             return
 
-        self.root_window = None
+        self.root_window: Optional[QObject] = None
         self.engine = QQmlApplicationEngine()
         self.theme_manager = ThemeManager()
         self.win_event_filter = None
@@ -53,7 +53,7 @@ class RinUIWindow:
         if qml_path is not None:
             self.load(qml_path)
 
-    def load(self, qml_path: Union[str, Path] = None) -> None:
+    def load(self, qml_path: Optional[Union[str, Path]] = None) -> None:
         """
         Load the QML file and set up the application window.
         :param qml_path:
@@ -85,8 +85,9 @@ class RinUIWindow:
             raise RuntimeError(msg)
 
         # 窗口设置
-        self.root_window = self.engine.rootObjects()[0]
-        all_windows = [self.root_window] + self.root_window.findChildren(QQuickWindow)
+        root_window = self.engine.rootObjects()[0]
+        self.root_window = root_window
+        all_windows = [root_window] + root_window.findChildren(QQuickWindow)
         self.windows = [w for w in all_windows if w.property("isRinUIWindow")]
 
         for window in self.windows:
@@ -122,6 +123,8 @@ class RinUIWindow:
         """Apply macOS native titlebar tweaks for custom title content."""
         if sys.platform != "darwin":
             return
+        if QApplication.platformName() != "cocoa":
+            return
 
         try:
             import AppKit
@@ -139,6 +142,10 @@ class RinUIWindow:
                 continue
 
             self._apply_macos_window_style(window)
+            effect_type = self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
+            self.theme_manager.apply_backdrop_effect(
+                effect_type
+            )
             window.visibleChanged.connect(
                 lambda visible, w=window: self._on_macos_window_visible_changed(
                     w, visible
@@ -150,6 +157,10 @@ class RinUIWindow:
             window.setProperty("_rinuiMacTrafficLightsShiftApplied", False)
             window.setProperty("_rinuiMacTrafficLightsShiftRetryCount", 0)
             self._apply_macos_window_style(window)
+            effect_type = self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
+            self.theme_manager.apply_backdrop_effect(
+                effect_type
+            )
 
     def _disable_native_mac_frame(self) -> None:
         for window in self.windows:
@@ -252,15 +263,18 @@ class RinUIWindow:
             print(f"Failed to shift macOS traffic lights: {err}")
             return False
 
-    def setIcon(self, path: Union[str, Path] = None) -> None:
+    def setIcon(self, path: Optional[Union[str, Path]] = None) -> None:
         """
         Sets the icon for the application.
         :param path: str or Path, icon file path (eg = "path/to/icon.png")
         :return:
         """
         app_instance = QApplication.instance()
+        if path is None:
+            msg = "Icon path must be provided."
+            raise ValueError(msg)
         path = Path(path).as_posix()
-        if app_instance:
+        if app_instance and self.root_window is not None:
             app_instance.setWindowIcon(QIcon(path))  # 设置应用程序图标
             self.root_window.setProperty("icon", QUrl.fromLocalFile(path))
         else:
@@ -273,8 +287,9 @@ class RinUIWindow:
         :return:
         """
         if is_windows():
+            effect_type = self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
             self.theme_manager.apply_backdrop_effect(
-                self.theme_manager.get_backdrop_effect()
+                effect_type
             )
             self.theme_manager.apply_window_effects()
 

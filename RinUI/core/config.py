@@ -29,6 +29,10 @@ def is_windows():
     return platform.system() == "Windows"
 
 
+def is_macos():
+    return platform.system() == "Darwin"
+
+
 def resource_path(relative_path):
     """兼容 PyInstaller 打包和开发环境的路径"""
     if hasattr(sys, "_MEIPASS"):
@@ -54,6 +58,7 @@ DEFAULT_CONFIG = {
     },
     "theme_color": "#605ed2",
     "backdrop_effect": "mica" if is_win11() else "acrylic" if is_win10() else "none",
+    "macos_backdrop_effect": "system",
 }
 
 
@@ -68,6 +73,8 @@ class BackdropEffect(Enum):
     Acrylic = "acrylic"
     Mica = "mica"
     Tabbed = "tabbed"
+    System = "system"
+    Hud = "hud"
 
 
 class ConfigManager:

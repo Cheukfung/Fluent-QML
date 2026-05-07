@@ -2769,26 +2769,41 @@ Determinate - shows how much progress has been made on a known amount of work.</
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="40"/>
+        <source>Adjust the macOS window material</source>
+        <translation>调整 macOS 窗口材质</translation>
+    </message>
+    <message>
+        <location filename="../pages/Settings.qml" line="41"/>
         <source>Adjust the appearance of the window background (Only available on Windows platform, some styles may only support on Windows 11)</source>
         <translation>修改窗口的背景外观（只支持Windows平台，部分效果可能仅在Windows11支持）</translation>
     </message>
     <message>
-        <location filename="../pages/Settings.qml" line="46"/>
+        <location filename="../pages/Settings.qml" line="50"/>
+        <source>System Material</source>
+        <translation>系统材质</translation>
+    </message>
+    <message>
+        <location filename="../pages/Settings.qml" line="50"/>
+        <source>HUD Material</source>
+        <translation>HUD 材质</translation>
+    </message>
+    <message>
+        <location filename="../pages/Settings.qml" line="51"/>
         <source>Mica</source>
         <translation>云母</translation>
     </message>
     <message>
-        <location filename="../pages/Settings.qml" line="47"/>
+        <location filename="../pages/Settings.qml" line="51"/>
         <source>Acrylic</source>
         <translation>亚克力</translation>
     </message>
     <message>
-        <location filename="../pages/Settings.qml" line="48"/>
+        <location filename="../pages/Settings.qml" line="51"/>
         <source>Tabbed</source>
         <translation>云母（增强）</translation>
     </message>
     <message>
-        <location filename="../pages/Settings.qml" line="49"/>
+        <location filename="../pages/Settings.qml" line="51"/>
         <source>None</source>
         <translation>无</translation>
     </message>

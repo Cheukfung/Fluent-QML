@@ -27,7 +27,7 @@ Window {
         | Qt.WindowMaximizeButtonHint
         | Qt.WindowCloseButtonHint
 
-    color: useNativeMacFrame ? Theme.currentTheme.colors.backgroundColor : "transparent"
+    color: useNativeMacFrame && !Utils.backdropEnabled ? Theme.currentTheme.colors.backgroundColor : "transparent"
     default property alias content: contentArea.data
     property int titleBarHeight: Theme.currentTheme.appearance.dialogTitleBarHeight
     property alias titleBarArea: titleBar.content

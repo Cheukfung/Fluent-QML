@@ -2,6 +2,7 @@ import ctypes
 import platform
 import sys
 import time
+from ctypes import c_void_p
 
 import darkdetect
 from PySide6.QtCore import QObject, QThread, Signal, Slot
@@ -10,6 +11,7 @@ from .config import (
     DEFAULT_CONFIG,
     BackdropEffect,
     RinConfig,
+    is_macos,
     is_win10,
     is_win11,
     is_windows,
@@ -36,6 +38,8 @@ ACCENT_SUPPORT = {
     "tabbed": is_win10(),
     "none": True,
 }
+
+MACOS_BACKDROP_EFFECTS = {"system", "hud", "none"}
 
 
 class ACCENT_POLICY(ctypes.Structure):
@@ -123,6 +127,9 @@ class ThemeManager(QObject):
         self._initialized = True
         super().__init__()
         self.theme_dict = {"Light": 0, "Dark": 1}
+        self.windows = []
+        self.qt_windows = []
+        self._mac_visual_effect_views = {}
 
         self.listener = None  # 监听线程
         self.current_theme = DEFAULT_CONFIG["theme"]["current_theme"]  # 当前主题
@@ -133,7 +140,27 @@ class ThemeManager(QObject):
         except Exception as e:
             print(f"Failed to load config because of {e}, using default config")
 
+        self._normalize_backdrop_effect()
         self.start_listener()
+
+    def _backdrop_effect_config_key(self):
+        return "macos_backdrop_effect" if is_macos() else "backdrop_effect"
+
+    def _normalize_backdrop_effect(self):
+        config_key = self._backdrop_effect_config_key()
+        effect_type = RinConfig[config_key]
+        if is_macos():
+            supported_effects = MACOS_BACKDROP_EFFECTS
+            default_effect = DEFAULT_CONFIG["macos_backdrop_effect"]
+        elif is_windows():
+            supported_effects = set(ACCENT_STATES)
+            default_effect = DEFAULT_CONFIG["backdrop_effect"]
+        else:
+            supported_effects = {BackdropEffect.None_.value}
+            default_effect = BackdropEffect.None_.value
+
+        if effect_type not in supported_effects:
+            RinConfig[config_key] = default_effect
 
     def start_listener(self):
         if not self.is_darkdetect_supported:
@@ -145,7 +172,10 @@ class ThemeManager(QObject):
 
     def set_window(self, window):  # 绑定窗口句柄
         hwnd = int(window.winId())
-        self.windows.append(hwnd)
+        if hwnd not in self.windows:
+            self.windows.append(hwnd)
+        if window not in self.qt_windows:
+            self.qt_windows.append(window)
         print(f"Window handle set: {hwnd}")
 
     def _handle_system_theme(self):
@@ -160,8 +190,11 @@ class ThemeManager(QObject):
     def apply_backdrop_effect(self, effect_type: str):
         """
         应用背景效果
-        :param effect_type: str, 背景效果类型（acrylic, mica, tabbed, none）
+        :param effect_type: str, 背景效果类型（acrylic, mica, tabbed, system, hud, none）
         """
+        if is_macos():
+            return self._apply_macos_backdrop_effect(effect_type)
+
         self._update_window_theme()
         if not is_windows() or not self.windows:
             print(f'Cannot apply effect "{effect_type}" on this platform')
@@ -190,6 +223,134 @@ class ThemeManager(QObject):
         #     f"{platform.system() + '11' if is_win11() else '10'}"
         # )
         return 0  # 成功
+
+    def _apply_macos_backdrop_effect(self, effect_type: str):
+        if not self.qt_windows:
+            print(f'Cannot apply effect "{effect_type}" before window is bound')
+            return -2
+        if effect_type not in MACOS_BACKDROP_EFFECTS:
+            print(f'Effect "{effect_type}" not supported on macOS')
+            return -1
+
+        try:
+            import AppKit
+            import objc
+        except Exception as err:
+            print(f'Cannot apply macOS effect "{effect_type}": {err}')
+            return -2
+
+        material_by_effect = self._macos_material_by_effect(AppKit)
+        appearance = self._macos_appearance(AppKit)
+
+        applied_any = any(
+            self._apply_macos_backdrop_to_window(
+                window,
+                effect_type,
+                AppKit,
+                objc,
+                material_by_effect,
+                appearance,
+            )
+            for window in self.qt_windows
+        )
+
+        if not applied_any:
+            print(f'Cannot apply effect "{effect_type}" on visible macOS windows')
+            return -2
+
+        self.backdropChanged.emit(effect_type)
+        RinConfig["macos_backdrop_effect"] = effect_type
+        return 0
+
+    def _apply_macos_backdrop_to_window(
+        self,
+        window,
+        effect_type: str,
+        appkit,
+        objc,
+        material_by_effect: dict,
+        appearance,
+    ):
+        if not window.property("useNativeMacFrame"):
+            return False
+
+        window_key, qt_view, ns_window = self._macos_window_handles(window, objc)
+        if not ns_window:
+            return False
+
+        self._prepare_macos_backdrop_window(qt_view, ns_window, appkit, appearance)
+        if effect_type == BackdropEffect.None_.value:
+            self._remove_macos_visual_effect_view(window_key)
+            return True
+
+        visual_effect_view = self._ensure_macos_visual_effect_view(
+            window_key,
+            qt_view,
+            ns_window,
+            appkit,
+        )
+        visual_effect_view.setMaterial_(material_by_effect[effect_type])
+        visual_effect_view.setBlendingMode_(
+            appkit.NSVisualEffectBlendingModeBehindWindow
+        )
+        visual_effect_view.setState_(appkit.NSVisualEffectStateActive)
+        visual_effect_view.setAppearance_(appearance)
+        return True
+
+    def _macos_window_handles(self, window, objc):
+        window_key = int(window.winId())
+        qt_view = objc.objc_object(c_void_p=c_void_p(window_key))
+        ns_window = qt_view.window() if qt_view else None
+        return window_key, qt_view, ns_window
+
+    def _prepare_macos_backdrop_window(self, qt_view, ns_window, appkit, appearance):
+        ns_window.setOpaque_(False)
+        ns_window.setBackgroundColor_(appkit.NSColor.clearColor())
+        ns_window.setAppearance_(appearance)
+        qt_view.setWantsLayer_(True)
+        qt_layer = qt_view.layer()
+        if qt_layer:
+            qt_layer.setOpaque_(False)
+
+    def _remove_macos_visual_effect_view(self, window_key: int):
+        visual_effect_view = self._mac_visual_effect_views.pop(window_key, None)
+        if visual_effect_view:
+            visual_effect_view.removeFromSuperview()
+
+    def _ensure_macos_visual_effect_view(self, window_key: int, qt_view, ns_window, appkit):
+        qt_superview = qt_view.superview()
+        parent_view = qt_superview or ns_window.contentView()
+        visual_effect_view = self._mac_visual_effect_views.get(window_key)
+        if visual_effect_view is None:
+            visual_effect_view = appkit.NSVisualEffectView.alloc().initWithFrame_(
+                parent_view.bounds()
+            )
+            visual_effect_view.setAutoresizingMask_(
+                appkit.NSViewWidthSizable | appkit.NSViewHeightSizable
+            )
+            parent_view.addSubview_positioned_relativeTo_(
+                visual_effect_view,
+                appkit.NSWindowBelow,
+                qt_view if qt_superview else None,
+            )
+            self._mac_visual_effect_views[window_key] = visual_effect_view
+
+        visual_effect_view.setFrame_(parent_view.bounds())
+        return visual_effect_view
+
+    def _macos_material_by_effect(self, appkit):
+        return {
+            BackdropEffect.System.value: appkit.NSVisualEffectMaterialUnderWindowBackground,
+            BackdropEffect.Hud.value: appkit.NSVisualEffectMaterialHUDWindow,
+        }
+
+    def _macos_appearance(self, appkit):
+        appearance_name = (
+            appkit.NSAppearanceNameDarkAqua
+            if self.is_dark_theme()
+            else appkit.NSAppearanceNameAqua
+        )
+        return appkit.NSAppearance.appearanceNamed_(appearance_name)
 
     def _apply_win10_effect(self, effect_type, hwnd):
         """
@@ -242,6 +403,13 @@ class ThemeManager(QObject):
         # print("Enabled Rounded and Shadows")
 
     def _update_window_theme(self):  # 更新窗口的颜色模式
+        if is_macos():
+            self._normalize_backdrop_effect()
+            effect_type = RinConfig["macos_backdrop_effect"]
+            if effect_type in MACOS_BACKDROP_EFFECTS:
+                self._apply_macos_backdrop_effect(effect_type)
+            return
+
         if sys.platform != "win32" or not self.windows:
             return
         actual_theme = self._actual_theme()
@@ -300,7 +468,8 @@ class ThemeManager(QObject):
     @Slot(result=str)
     def get_backdrop_effect(self):
         """获取当前背景效果"""
-        return RinConfig["backdrop_effect"]
+        self._normalize_backdrop_effect()
+        return RinConfig[self._backdrop_effect_config_key()]
 
     @Slot(str)
     def set_theme_color(self, color):

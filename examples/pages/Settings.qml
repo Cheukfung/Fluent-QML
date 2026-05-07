@@ -37,20 +37,30 @@ FluentPage {
         SettingCard {
             width: parent.width
             title: qsTr("Window Backdrop Effect")
-            description: qsTr("Adjust the appearance of the window background (Only available on Windows platform, some styles may only support on Windows 11)")
+            description: backdropEffectBox.isMacOS
+                ? qsTr("Adjust the macOS window material")
+                : qsTr("Adjust the appearance of the window background (Only available on Windows platform, some styles may only support on Windows 11)")
             icon.name: "ic_fluent_square_hint_sparkles_20_regular"
 
             ComboBox {
-                property var data: ["mica", "acrylic", "tabbed", "none"]
-                model: ListModel {
-                    ListElement { text: qsTr("Mica") }
-                    ListElement { text: qsTr("Acrylic") }
-                    ListElement { text: qsTr("Tabbed") }
-                    ListElement { text: qsTr("None") }
+                id: backdropEffectBox
+                property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos" || Qt.platform.os === "darwin"
+                property bool initialized: false
+                property var data: isMacOS ? ["system", "hud", "none"] : ["mica", "acrylic", "tabbed", "none"]
+                property var labels: isMacOS
+                    ? [qsTr("System Material"), qsTr("HUD Material"), qsTr("None")]
+                    : [qsTr("Mica"), qsTr("Acrylic"), qsTr("Tabbed"), qsTr("None")]
+                model: labels
+
+                Component.onCompleted: {
+                    currentIndex = Math.max(0, data.indexOf(Theme.getBackdropEffect()))
+                    initialized = true
                 }
-                currentIndex: data.indexOf(Theme.getBackdropEffect())
+
                 onCurrentIndexChanged: {
-                    Theme.setBackdropEffect(data[currentIndex])
+                    if (initialized && currentIndex >= 0 && currentIndex < data.length) {
+                        Theme.setBackdropEffect(data[currentIndex])
+                    }
                 }
             }
         }

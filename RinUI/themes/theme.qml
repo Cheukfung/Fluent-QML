@@ -17,6 +17,8 @@ Item {
         Mica: "mica",
         Acrylic: "acrylic",
         Tabbed: "tabbed",
+        System: "system",
+        Hud: "hud",
         None: "none"
     })
 
@@ -24,8 +26,10 @@ Item {
     Component.onCompleted: {
         if (typeof ThemeManager === "undefined") {
             currentTheme = Qt.createQmlObject("import '../themes'; Light {}", themeManager)
+            Utils.backdropEnabled = false
         } else {
             Utils.primaryColor = getThemeColor()
+            Utils.backdropEnabled = getBackdropEffect() !== effect.None
             setTheme(ThemeManager.get_theme_name())
         }
     }

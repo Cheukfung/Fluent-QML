@@ -34,7 +34,7 @@ ApplicationWindow {
         | Qt.WindowMinimizeButtonHint
         | Qt.WindowMaximizeButtonHint
         | Qt.WindowCloseButtonHint
-    color: useNativeMacFrame ? Theme.currentTheme.colors.backgroundColor : "transparent"
+    color: useNativeMacFrame && !Utils.backdropEnabled ? Theme.currentTheme.colors.backgroundColor : "transparent"
     topPadding: 0
 
     // 自定义属性
