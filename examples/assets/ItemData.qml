@@ -1,6 +1,6 @@
 pragma Singleton
 import QtQuick 2.15
-import RinUI
+import FluentQML
 
 QtObject {
     // filter

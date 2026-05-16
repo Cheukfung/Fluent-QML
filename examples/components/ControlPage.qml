@@ -1,13 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import RinUI
+import FluentQML
 
 FluentPage {
     id: fluentPage
 
     property url docsUrl: "https://ui.rinlit.cn/"
-    property url repoUrl: "https://github.com/RinLit-233-shiroko/Rin-UI"
+    property url repoUrl: "https://github.com/Cheukfung/fluentqml"
     property string badgeText: ""
     property string pageName: title
     property var badgeSeverity: Severity.Info
@@ -52,7 +52,7 @@ FluentPage {
                     icon.name: "ic_fluent_document_20_regular"
                     text: qsTr("Documentation")
                     MenuItem {
-                        text: fluentPage.title + " - " + qsTr("Rin UI Documentation")
+                        text: fluentPage.title + " - " + qsTr("FluentQML Documentation")
                         onClicked: Qt.openUrlExternally(docsUrl)
                     }
 
@@ -100,7 +100,7 @@ FluentPage {
 
                 ToolButton {
                     icon.name: "ic_fluent_person_feedback_20_regular"
-                    onClicked: Qt.openUrlExternally("https://github.com/RinLit-233-shiroko/Rin-UI/issues/new/choose")
+                    onClicked: Qt.openUrlExternally("https://github.com/Cheukfung/fluentqml/issues/new/choose")
 
                     ToolTip {
                         delay: 500

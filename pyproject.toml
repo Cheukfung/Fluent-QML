@@ -3,11 +3,11 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "RinUI"
+name = "fluentqml"
 license = { file = "LICENSE" }
 dynamic = ["version"]
 authors = [
-  {email = "lintu233_qwq@icloud.com", name = "RinLit"}
+  {name = "Cheukfung"}
 ]
 description = "A Fluent Design-like UI library for Qt Quick (QML) based on PySide6"
 readme = "README.md"
@@ -24,15 +24,15 @@ classifiers = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["RinUI"]
+packages = ["fluentqml"]
 exclude = [
-  "RinUI/**/*.qml",
-  "RinUI/**/qmldir",
-  "RinUI/**/*.qm",
-  "RinUI/**/*.ts",
-  "RinUI/assets/**",
-  "RinUI/rinui.qrc",
-  "RinUI/rinui.qrc.sha256"
+  "fluentqml/**/*.qml",
+  "fluentqml/**/qmldir",
+  "fluentqml/**/*.qm",
+  "fluentqml/**/*.ts",
+  "fluentqml/assets/**",
+  "fluentqml/fluentqml.qrc",
+  "fluentqml/fluentqml.qrc.sha256"
 ]
 
 [tool.hatch.build.hooks.custom]
@@ -43,17 +43,17 @@ dependencies = ["PySide6>=6.9.3"]
 "README.md" = "README.md"
 
 [tool.hatch.version]
-path = "RinUI/__init__.py"
+path = "fluentqml/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
-  "RinUI/**/*",
+  "fluentqml/**/*",
   "LICENSE",
   "README.md"
 ]
 
 [project.entry-points."pyinstaller40"]
-hook-dirs = "RinUI.hooks:get_hook_dirs"
+hook-dirs = "fluentqml.hooks:get_hook_dirs"
 
 [project.optional-dependencies]
 dev = [

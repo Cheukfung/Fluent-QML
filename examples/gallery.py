@@ -2,13 +2,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from config import cfg
 from PySide6.QtCore import QLocale, QObject, Qt, QTranslator, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtWidgets import QApplication
 
-import RinUI
-from RinUI import RinUITranslator, RinUIWindow, __version__
+import fluentqml
+from config import cfg
+from fluentqml import FluentQMLTranslator, FluentQMLWindow, __version__
 
 SCRIPT_DIR = Path(__file__).parent.absolute()
 PROJECT_ROOT = SCRIPT_DIR.parent
@@ -16,7 +16,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-class Gallery(RinUIWindow):
+class Gallery(FluentQMLWindow):
     def __init__(self):
         qml_file = SCRIPT_DIR / "gallery.qml"
         super().__init__(str(qml_file))
@@ -26,7 +26,7 @@ class Gallery(RinUIWindow):
         self.backend = Backend()
         self.backend.setBackendParent(self)
         self.setProperty(
-            "title", f"RinUI Gallery {datetime.now().year}"
+            "title", f"FluentQML Gallery {datetime.now().year}"
         )  # 前后端交互示例
 
         self.engine.rootContext().setContextProperty("Backend", self.backend)  # 注入
@@ -66,7 +66,7 @@ class Backend(QObject):
 
         cfg["language"] = lang
         cfg.save_config()
-        ui_translator = RinUITranslator(QLocale(lang))
+        ui_translator = FluentQMLTranslator(QLocale(lang))
         translator = QTranslator()
         translator.load(str(lang_path))
         QApplication.instance().removeTranslator(ui_translator)
@@ -77,7 +77,7 @@ class Backend(QObject):
 
 
 if __name__ == "__main__":
-    print(RinUI.__file__)
+    print(fluentqml.__file__)
     QGuiApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     )
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     # i18n
     lang = cfg["language"]
-    ui_translator = RinUITranslator(QLocale(lang))
+    ui_translator = FluentQMLTranslator(QLocale(lang))
     app.installTranslator(ui_translator)
     translator = QTranslator()
     lang_file = SCRIPT_DIR / "languages" / f"{lang}.qm"
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     # 创建 QML 引擎
     # engine = QQmlApplicationEngine()
-    # # engine.addImportPath(str(Path(__file__).parent.parent / "RinUI"))
+    # # engine.addImportPath(str(Path(__file__).parent.parent / "fluentqml"))
     # print(engine.importPathList())
     #
     # # 加载 QML 文件

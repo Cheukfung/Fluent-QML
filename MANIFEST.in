@@ -1,8 +1,8 @@
 include README.md
 include LICENSE
-recursive-include RinUI/assets *
-recursive-include RinUI/components *
-recursive-include RinUI/themes *
-recursive-include RinUI/windows *
-recursive-include RinUI/utils *
-recursive-include RinUI *
+recursive-include fluentqml/assets *
+recursive-include fluentqml/components *
+recursive-include fluentqml/themes *
+recursive-include fluentqml/windows *
+recursive-include fluentqml/utils *
+recursive-include fluentqml *

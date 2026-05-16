@@ -511,7 +511,7 @@ but with wrapping.</source>
     </message>
     <message>
         <location filename="../components/ControlPage.qml" line="49"/>
-        <source>Rin UI Documentation</source>
+        <source>FluentQML Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -898,7 +898,7 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="59"/>
-        <source>RinUI Gallery</source>
+        <source>FluentQML Gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -908,7 +908,7 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="83"/>
-        <source>Get started with RinUI and explore detailed documentation.</source>
+        <source>Get started with FluentQML and explore detailed documentation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -923,7 +923,7 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="89"/>
-        <source>Explore the comprehensive documentation for RinUI components.</source>
+        <source>Explore the comprehensive documentation for FluentQML components.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -933,12 +933,12 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="94"/>
-        <source>RinUI on GitHub</source>
+        <source>FluentQML on GitHub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="95"/>
-        <source>Explore the RinUI source code and repository.</source>
+        <source>Explore the FluentQML source code and repository.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -948,7 +948,7 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="112"/>
-        <source>Congratulations! The refactoring of RinUI Gallery is now &lt;b&gt;complete&lt;/b&gt;.</source>
+        <source>Congratulations! The refactoring of FluentQML Gallery is now &lt;b&gt;complete&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -986,7 +986,7 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/controls/Hyperlink.qml" line="32"/>
-        <source>RinUI home page</source>
+        <source>FluentQML home page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2836,12 +2836,12 @@ Determinate - shows how much progress has been made on a known amount of work.</
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="122"/>
-        <source>RinUI Gallery</source>
+        <source>FluentQML Gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="123"/>
-        <source>© 2025 RinLit. All rights reserved.</source>
+        <source>© 2026 Cheukfung. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3251,7 +3251,7 @@ Determinate - shows how much progress has been made on a known amount of work.</
     </message>
     <message>
         <location filename="../gallery.qml" line="59"/>
-        <source>This page is &lt;b&gt;not a bug&lt;/b&gt;, but a demo of an error in the RinUI loading interface.</source>
+        <source>This page is &lt;b&gt;not a bug&lt;/b&gt;, but a demo of an error in the FluentQML loading interface.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

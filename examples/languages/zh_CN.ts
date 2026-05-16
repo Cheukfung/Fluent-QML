@@ -511,8 +511,8 @@ but with wrapping.</source>
     </message>
     <message>
         <location filename="../components/ControlPage.qml" line="49"/>
-        <source>Rin UI Documentation</source>
-        <translation>Rin UI 开发文档</translation>
+        <source>FluentQML Documentation</source>
+        <translation>FluentQML 开发文档</translation>
     </message>
     <message>
         <location filename="../components/ControlPage.qml" line="61"/>
@@ -898,8 +898,8 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="59"/>
-        <source>RinUI Gallery</source>
-        <translation>RinUI 组件库</translation>
+        <source>FluentQML Gallery</source>
+        <translation>FluentQML 组件库</translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="82"/>
@@ -908,8 +908,8 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="83"/>
-        <source>Get started with RinUI and explore detailed documentation.</source>
-        <translation>上手 RinUI 并浏览详细文档。</translation>
+        <source>Get started with FluentQML and explore detailed documentation.</source>
+        <translation>上手 FluentQML 并浏览详细文档。</translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="85"/>
@@ -923,8 +923,8 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="89"/>
-        <source>Explore the comprehensive documentation for RinUI components.</source>
-        <translation>探索 RinUI 组件的开发文档。</translation>
+        <source>Explore the comprehensive documentation for FluentQML components.</source>
+        <translation>探索 FluentQML 组件的开发文档。</translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="91"/>
@@ -933,13 +933,13 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="94"/>
-        <source>RinUI on GitHub</source>
-        <translation>RinUI 在 GitHub</translation>
+        <source>FluentQML on GitHub</source>
+        <translation>FluentQML 在 GitHub</translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="95"/>
-        <source>Explore the RinUI source code and repository.</source>
-        <translation>探索 RinUI 的源代码和仓库。</translation>
+        <source>Explore the FluentQML source code and repository.</source>
+        <translation>探索 FluentQML 的源代码和仓库。</translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="111"/>
@@ -948,16 +948,16 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="112"/>
-        <source>Congratulations! The refactoring of RinUI Gallery is now &lt;b&gt;complete&lt;/b&gt;.</source>
-        <translation>恭喜！现在 RinUI 组件库展示&lt;b&gt;已经完成&lt;/b&gt;全部的重构工作。</translation>
+        <source>Congratulations! The refactoring of FluentQML Gallery is now &lt;b&gt;complete&lt;/b&gt;.</source>
+        <translation>恭喜！现在 FluentQML 组件库展示&lt;b&gt;已经完成&lt;/b&gt;全部的重构工作。</translation>
     </message>
     <message>
         <source>Notice</source>
         <translation type="vanished">注意</translation>
     </message>
     <message>
-        <source>Rin UI Gallery is &lt;b&gt;refactoring&lt;/b&gt; its pages to make the gallery more compatible with WinUI Gallery. Some pages are still unfinished, the new gallery will available soon.</source>
-        <translation type="vanished">RinUI 组件库页面正在 &lt;b&gt;重构&lt;/b&gt; 子页面，使其能更像WinUI Gallery。部分页面可能仍未完成，新的组件库页面将会在未来上线。&lt;br&gt;（译者注：翻译工作可能进行缓慢，因为这并非我们的工作中心。）</translation>
+        <source>FluentQML Gallery is &lt;b&gt;refactoring&lt;/b&gt; its pages to make the gallery more compatible with WinUI Gallery. Some pages are still unfinished, the new gallery will available soon.</source>
+        <translation type="vanished">FluentQML 组件库页面正在 &lt;b&gt;重构&lt;/b&gt; 子页面，使其能更像WinUI Gallery。部分页面可能仍未完成，新的组件库页面将会在未来上线。&lt;br&gt;（译者注：翻译工作可能进行缓慢，因为这并非我们的工作中心。）</translation>
     </message>
     <message>
         <location filename="../pages/Home.qml" line="123"/>
@@ -994,7 +994,7 @@ Meow</source>
     </message>
     <message>
         <location filename="../pages/controls/Hyperlink.qml" line="32"/>
-        <source>RinUI home page</source>
+        <source>FluentQML home page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2844,17 +2844,17 @@ Determinate - shows how much progress has been made on a known amount of work.</
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="122"/>
-        <source>RinUI Gallery</source>
-        <translation>RinUI 组件库</translation>
+        <source>FluentQML Gallery</source>
+        <translation>FluentQML 组件库</translation>
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="123"/>
-        <source>© 2026 RinLit. All rights reserved.</source>
-        <translation type="unfinished">© 2026 RinLit. 保留所有权利.</translation>
+        <source>© 2026 Cheukfung. All rights reserved.</source>
+        <translation type="unfinished">© 2026 Cheukfung. 保留所有权利.</translation>
     </message>
     <message>
-        <source>© 2025 RinLit. All rights reserved.</source>
-        <translation type="vanished">© 2025 RinLit. 保留所有权利.</translation>
+        <source>© 2026 Cheukfung. All rights reserved.</source>
+        <translation type="vanished">© 2026 Cheukfung. 保留所有权利.</translation>
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="134"/>
@@ -3263,8 +3263,8 @@ Determinate - shows how much progress has been made on a known amount of work.</
     </message>
     <message>
         <location filename="../gallery.qml" line="59"/>
-        <source>This page is &lt;b&gt;not a bug&lt;/b&gt;, but a demo of an error in the RinUI loading interface.</source>
-        <translation>这个页面不是 &lt;b&gt;Bug&lt;/b&gt; ，而是 RinUI 在加载页面出错时的演示界面。</translation>
+        <source>This page is &lt;b&gt;not a bug&lt;/b&gt;, but a demo of an error in the FluentQML loading interface.</source>
+        <translation>这个页面不是 &lt;b&gt;Bug&lt;/b&gt; ，而是 FluentQML 在加载页面出错时的演示界面。</translation>
     </message>
     <message>
         <location filename="../gallery.qml" line="77"/>

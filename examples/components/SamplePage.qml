@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import Qt5Compat.GraphicalEffects  // 图形库
-import RinUI
+import FluentQML
 import "../assets"
 import "../components"
 

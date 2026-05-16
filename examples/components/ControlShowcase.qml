@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import RinUI
+import FluentQML
 
 
 // 自定义控件演示 / Custom control demonstration //

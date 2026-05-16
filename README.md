@@ -1,107 +1,225 @@
 <div align="center">
-<img src="docs/img/logo.png" alt="RinUI Logo" width="18%">
-<h1>RinUI</h1>
-<p>A Fluent Design-like UI library for Qt Quick (QML)</p>
+<img src="docs/img/logo.svg" alt="FluentQML Logo" width="18%">
+<h1>FluentQML</h1>
+<p>Fluent Design components for PySide6 and Qt Quick.</p>
 
 **English** | [中文](./docs/README_zhCN.MD)
 
 </div>
 
-> [!TIP]
-> This project is still in development and not ready for production use!
->
-> Of course, you are welcome to contribute to this project.
+> [!IMPORTANT]
+> FluentQML is a secondary development based on
+> [RinUI](https://github.com/RinLit-233-shiroko/Rin-UI)
+> RinUI is licensed under the MIT License, and the
+> original copyright notice is preserved in this repository's license file.
 
-> [!NOTE]
-> ### RinUI has reached 100 ⭐!
-> This milestone came as a pleasant surprise to me. Thank you to everyone who follows, uses, and supports the project.
-> 
-> I would also like to give special thanks to all contributors.
-> Whether through code contributions, issue reports, or suggestions and discussions, your efforts have helped make RinUI better.
+## Overview
 
-## 📄 Introduction
+FluentQML is a PySide6 + QML component library for building desktop interfaces
+with a Fluent Design inspired look and feel. It provides reusable Qt Quick
+controls, window chrome, theme handling, icon support, translation loading, and
+a gallery app that demonstrates the available components.
 
-RinUI is a UI library similar to Fluent Design for Qt Quick (QML), RinUI will provide high-quality components and practical functions.
-With simple configuration, you can quickly develop elegant UI interfaces in the Fluent style.
+The project is designed for developers who want to keep their application UI in
+QML while using Python for application startup, window management,
+configuration, and platform integration.
 
-### Features
-* Elegant Fluent Design controls (WIP)
-* Dark and light mode, automatic switching
-* Compatible with original QML control names
-* i18n Internationalization
-* Multi-programming language support (WIP)
-* Theme system (WIP)
-* Development documentation, [preview](https://ui.rinlit.cn/) now. (WIP)
+## Compared with RinUI
 
-### Screenshots
-![Screenshot 1](/docs/img/shot_1.png)
+FluentQML currently adds these changes:
 
-<details style="text-align: center">
-<summary>More screenshots...</summary>
+- macOS native window materials: System, HUD, and None.
+- Better macOS window handling, including native title-bar integration and smoother window dragging.
+- Windows 11 Snap Layout support for custom windows.
+- QML, fonts, images, and translations compiled into Qt qrc resources for PyPI packages.
+- Cross-platform Python scripts for resource building, Gallery packaging, and releases.
+- Fixes for CalendarDatePicker, Expander rounded corners, page refresh behavior, and config paths.
 
-![img.png](/docs/img/img.png)
-![img_1.png](/docs/img/img_1.png)
-![img_2.png](/docs/img/img_2.png)
-![img_3.png](/docs/img/img_3.png)
+## Features
+
+- Fluent-style Qt Quick controls for common desktop UI patterns
+- Custom application windows with title bar and navigation layouts
+- Light, dark, and automatic theme switching
+- Theme color and backdrop effect support
+- Fluent System Icons integration
+- Translation resource loading for application localization
+- Gallery examples for controls, layouts, navigation, dialogs, menus, and inputs
+- PyInstaller hook support for packaged applications
+
+## Preview
+
+![FluentQML Gallery](docs/img/shot_1.png)
+
+<details>
+<summary>More screenshots</summary>
+
+![Gallery screenshot](docs/img/img.png)
+![Gallery screenshot](docs/img/img_1.png)
+![Gallery screenshot](docs/img/img_2.png)
+![Gallery screenshot](docs/img/img_3.png)
+
 </details>
 
-> The image in the banner comes from Pixiv, PID: [125975786](https://www.pixiv.net/artworks/125975786)
+## Installation
 
-## 🪄 Usage
+Install from PyPI after the package is published:
 
-You can install RinUI via pip:
 ```bash
-pip install RinUI
+pip install fluentqml
 ```
 
-Import RinUI in your QML file:
-```qmllang
-import RinUI
+For local development, install this repository in editable mode:
+
+```bash
+git clone https://github.com/Cheukfung/fluentqml.git
+cd fluentqml
+uv sync
 ```
-Then you can run the QML file in your project.
+
+If you are not using `uv`, install the runtime dependencies manually:
+
+```bash
+pip install PySide6 darkdetect
+```
+
+## Quick Start
+
+Create a QML file, for example `main.qml`:
+
+```qml
+import QtQuick
+import FluentQML
+
+FluentWindow {
+    visible: true
+    width: 900
+    height: 600
+    title: "FluentQML App"
+
+    Text {
+        anchors.centerIn: parent
+        text: "Hello FluentQML"
+    }
+}
+```
+
+Launch it from Python:
+
 ```python
 import sys
-from RinUI import *
+
 from PySide6.QtWidgets import QApplication
+from fluentqml import FluentQMLWindow
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    your_app = RinUIWindow("/path/to/your/file.qml")
-    sys.exit(app.exec_())
+app = QApplication(sys.argv)
+window = FluentQMLWindow("main.qml")
+sys.exit(app.exec())
 ```
 
-You also can view the demo in the source code, like this:
+The QML import name is `FluentQML`; the Python package name is `fluentqml`.
+
+## Gallery
+
+Run the gallery app from the repository root:
+
 ```bash
-cd examples
-python gallery.py
+uv run python examples/gallery.py
 ```
 
-You also can move the RinUI folder to anywhere in your project's directory.
+Or, if you are managing dependencies yourself:
 
-> [!NOTE]
-> The documentation is still in progress!!
-> You can view the source code to learn more about the components and themes at the moment.
+```bash
+python examples/gallery.py
+```
 
-Now you can learn more about RinUI components and themes in [the online documentation](https://ui.rinlit.cn/).
+The gallery is the best place to inspect available controls and copy working
+usage patterns while the formal documentation is still being written.
 
-## 🙌 Acknowledgements
-### Resources
-- [PySide6 & Qt Quick](https://www.qt.io/)
+## Project Layout
+
+```text
+fluentqml/              Core Python package, QML modules, resources, hooks
+examples/               Gallery app and component usage examples
+docs/                   Images and documentation drafts
+scripts/                Resource and release helper scripts
+test/                   Small local QML loading experiments
+```
+
+## Development
+
+Regenerate the Qt resource bundle after changing QML, fonts, images, or
+translation files:
+
+```bash
+uv run python scripts/build_fluentqml_qrc.py
+```
+
+Run lint checks:
+
+```bash
+uv run ruff check .
+```
+
+Update library translations:
+
+```bash
+uv run python scripts/update_ts.py library
+```
+
+Update Gallery translations:
+
+```bash
+uv run python scripts/update_ts.py gallery
+```
+
+Package the Gallery app with PyInstaller:
+
+```bash
+uv run python scripts/package_gallery.py
+```
+
+Build release artifacts:
+
+```bash
+uv run python scripts/release.py build
+```
+
+The release script cleans `dist/`, regenerates `fluentqml_rc.py`, builds the
+sdist and wheel, verifies that the wheel contains `fluentqml/fluentqml_rc.py`,
+checks that raw QML resources are not accidentally included in the wheel, and
+runs `twine check`.
+
+Upload the already-built artifacts to TestPyPI:
+
+```bash
+uv run python scripts/release.py upload-testpypi
+```
+
+Upload the same artifacts to PyPI after testing the TestPyPI install:
+
+```bash
+uv run python scripts/release.py upload-pypi
+```
+
+Useful naming conventions in this project:
+
+- Python import: `from fluentqml import FluentQMLWindow`
+- QML import: `import FluentQML`
+- Qt resource prefix: `qrc:/FluentQML`
+- Generated resource module: `fluentqml.fluentqml_rc`
+
+## Credits
+
+FluentQML uses resources and ideas from the wider Qt and Fluent ecosystem:
+
+- [PySide6 and Qt Quick](https://www.qt.io/)
 - [Fluent Design System](https://fluent2.microsoft.design/)
 - [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons/)
 - [WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery)
 
-### Contributors
-Contributions are welcome! Please read the [contribution guidelines](./CONTRIBUTING.md) before submitting a pull request.
+## License
 
-Thanks to the great people who contributed to this project.
-[![Contributors](http://contrib.nn.ci/api?repo=rinlit-233-shiroko/Rin-UI)](https://github.com/RinLit-233-shiroko/Rin-UI/graphs/contributors)
+FluentQML is released under the MIT License. See [LICENSE](./LICENSE) for the
+full license text.
 
-## 📜 License
-This project is licensed under the **MIT** License, you can learn more about it in the [license file](./LICENSE).
-
-Copyright © 2025 RinLit
-
-##
-
-This is an experimental project by Rin as a newcomer. Welcome to suggest and contribute to this project. ❤️
+Copyright (c) 2026 Cheukfung

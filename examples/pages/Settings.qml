@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import RinUI
+import FluentQML
 
 FluentPage {
     title: qsTr("Settings")
@@ -129,9 +129,9 @@ FluentPage {
 
         SettingExpander {
             width: parent.width
-            title: qsTr("RinUI Gallery")
-            description: qsTr("© 2026 RinLit. All rights reserved.")
-            icon.source: Qt.resolvedUrl("../assets/BA_Pic_Shiroko-chibi.png")
+            title: qsTr("FluentQML Gallery")
+            description: qsTr("© 2026 Cheukfung. All rights reserved.")
+            icon.source: Qt.resolvedUrl("../assets/gallery.png")
             icon.size: 28
 
             content: Text {
@@ -146,7 +146,7 @@ FluentPage {
                 TextInput {
                     id: repoUrl
                     readOnly: true
-                    text: "git clone https://github.com/RinLit-233-shiroko/Rin-UI.git"
+                    text: "git clone https://github.com/Cheukfung/fluentqml.git"
                     wrapMode: TextInput.Wrap
                 }
                 ToolButton {
@@ -162,7 +162,7 @@ FluentPage {
 
                 Hyperlink {
                     text: qsTr("Create an issue on GitHub")
-                    openUrl: "https://github.com/RinLit-233-shiroko/Rin-UI/issues/new/choose"
+                    openUrl: "https://github.com/Cheukfung/fluentqml/issues/new/choose"
                 }
             }
             SettingItem {
@@ -195,7 +195,7 @@ FluentPage {
 
                 Hyperlink {
                     text: qsTr("MIT License")
-                    openUrl: "https://github.com/RinLit-233-shiroko/Rin-UI/blob/master/LICENSE"
+                    openUrl: "https://github.com/Cheukfung/fluentqml/blob/master/LICENSE"
                 }
             }
         }

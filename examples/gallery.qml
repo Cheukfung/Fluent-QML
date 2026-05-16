@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import "./assets/"
-import RinUI
+import FluentQML
 
 FluentWindow {
     id: window
@@ -56,7 +56,7 @@ FluentWindow {
             severity: Severity.Warning
             closable: false
             title: qsTr("Tips")
-            text: qsTr("This page is <b>not a bug</b>, but a demo of an error in the RinUI loading interface.")
+            text: qsTr("This page is <b>not a bug</b>, but a demo of an error in the FluentQML loading interface.")
             customContent: [
                 Button {
                     text: "I got it."

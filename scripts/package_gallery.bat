@@ -3,7 +3,7 @@ cd ..
   --icon=examples/assets/gallery.ico ^
   --noconsole ^
   --contents-directory="." ^
-  --add-data="RinUI;RinUI" ^
+  --add-data="fluentqml;fluentqml" ^
   --add-data="examples/assets;assets" ^
   --add-data="examples/components;components" ^
   --add-data="examples/languages;languages" ^

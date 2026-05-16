@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import Qt5Compat.GraphicalEffects  // 图形库
-import RinUI
+import FluentQML
 import "../assets"
 import "../components"
 
@@ -56,7 +56,7 @@ FluentPage {
             Text {
                 color: "#fff"
                 typography: Typography.TitleLarge
-                text: qsTr("RinUI Gallery")
+                text: qsTr("FluentQML Gallery")
             }
         }
     }
@@ -80,22 +80,22 @@ FluentPage {
                 model: [
                     {
                         title: qsTr("Getting Started"),
-                        desc: qsTr("Get started with RinUI and explore detailed documentation."),
+                        desc: qsTr("Get started with FluentQML and explore detailed documentation."),
                         icon: Qt.resolvedUrl("../assets/gallery.png"),
                         url: qsTr("https://ui.rinlit.cn/guide/getting-started.html")
                     },
                     {
                         title: qsTr("Documentation"),
-                        desc: qsTr("Explore the comprehensive documentation for RinUI components."),
+                        desc: qsTr("Explore the comprehensive documentation for FluentQML components."),
                         icon: Qt.resolvedUrl("../assets/controls/RichTextBlock.png"),
                         url: qsTr("https://ui.rinlit.cn/")
                     },
                     {
-                        title: qsTr("RinUI on GitHub"),
-                        desc: qsTr("Explore the RinUI source code and repository."),
+                        title: qsTr("FluentQML on GitHub"),
+                        desc: qsTr("Explore the FluentQML source code and repository."),
                         icon: Theme.isDark() ? Qt.resolvedUrl("../assets/github_light.svg")
                                             : Qt.resolvedUrl("../assets/github.svg"),
-                        url: "https://github.com/RinLit-233-shiroko/Rin-UI"
+                        url: "https://github.com/Cheukfung/fluentqml"
                     },
                 ]
                 delegate: LinkClip { }
@@ -110,7 +110,7 @@ FluentPage {
         closable: false
         title: qsTr("🎉 Congratulations!")
         text: qsTr(
-            "Congratulations! The refactoring of RinUI Gallery is now <b>complete</b>."
+            "Congratulations! The refactoring of FluentQML Gallery is now <b>complete</b>."
         )
     }
 

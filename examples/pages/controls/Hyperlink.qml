@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import RinUI
+import FluentQML
 import "../../components"
 
 ControlPage {
@@ -29,7 +29,7 @@ ControlPage {
             width: parent.width
             Hyperlink {
                 // anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("RinUI home page")
+                text: qsTr("FluentQML home page")
                 openUrl: "https://ui.rinlit.cn/"
                 enabled: !buttonSwitch.checked
             }
