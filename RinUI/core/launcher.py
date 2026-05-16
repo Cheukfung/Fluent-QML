@@ -9,7 +9,7 @@ from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuick import QQuickWindow
 from PySide6.QtWidgets import QApplication
 
-from .config import RINUI_PATH, BackdropEffect, Theme, is_windows
+from .config import RINUI_QML_IMPORT_PATH, BackdropEffect, Theme, is_windows
 from .theme import ThemeManager
 
 
@@ -60,7 +60,7 @@ class RinUIWindow:
         :return:
         """
         # RInUI 模块
-        print(f"UI Module Path: {RINUI_PATH}")
+        print(f"UI Module Path: {RINUI_QML_IMPORT_PATH}")
 
         if qml_path is None:
             msg = "QML path must be provided to load the window."
@@ -68,9 +68,9 @@ class RinUIWindow:
         self.qml_path = Path(qml_path)
 
         if self.qml_path.exists():
-            self.engine.addImportPath(RINUI_PATH)
+            self.engine.addImportPath(RINUI_QML_IMPORT_PATH)
         else:
-            msg = f"Cannot find RinUI module: {RINUI_PATH}"
+            msg = f"Cannot find QML file: {self.qml_path}"
             raise FileNotFoundError(msg)
 
         # 主题管理器
@@ -172,7 +172,7 @@ class RinUIWindow:
             return
 
         try:
-            ns_view = self._mac_objc.objc_object(c_void_p=int(window.winId()))
+            ns_view = self._mac_objc.objc_object(c_void_p=c_void_p(int(window.winId())))
             ns_window = ns_view.window() if ns_view else None
             if not ns_window:
                 return
@@ -220,7 +220,7 @@ class RinUIWindow:
             return False
 
         try:
-            ns_view = self._mac_objc.objc_object(c_void_p=int(window.winId()))
+            ns_view = self._mac_objc.objc_object(c_void_p=c_void_p(int(window.winId())))
             ns_window = ns_view.window() if ns_view else None
             if not ns_window:
                 return False
@@ -258,10 +258,11 @@ class RinUIWindow:
                         frame.origin.y - self._mac_traffic_lights_offset_down,
                     )
                 )
-            return True
         except Exception as err:
             print(f"Failed to shift macOS traffic lights: {err}")
             return False
+        else:
+            return True
 
     def setIcon(self, path: Optional[Union[str, Path]] = None) -> None:
         """

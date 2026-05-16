@@ -47,6 +47,8 @@ PATH = BASE_DIR / "RinUI" / "config"
 RINUI_PATH = resource_path(
     rinui_core_path.parent.parent
 )  # 使用 resource_path 处理路径，等同 ../../
+RINUI_QML_IMPORT_PATH = "qrc:/"
+RINUI_RESOURCE_PREFIX = ":/RinUI"
 
 DEFAULT_CONFIG = {
     "theme": {

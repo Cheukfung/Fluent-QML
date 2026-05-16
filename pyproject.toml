@@ -25,6 +25,18 @@ classifiers = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["RinUI"]
+exclude = [
+  "RinUI/**/*.qml",
+  "RinUI/**/qmldir",
+  "RinUI/**/*.qm",
+  "RinUI/**/*.ts",
+  "RinUI/assets/**",
+  "RinUI/rinui.qrc",
+  "RinUI/rinui.qrc.sha256"
+]
+
+[tool.hatch.build.hooks.custom]
+dependencies = ["PySide6>=6.9.3"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "LICENSE" = "LICENSE"

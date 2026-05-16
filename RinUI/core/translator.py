@@ -1,8 +1,8 @@
-from pathlib import Path
+from typing import Union
 
 from PySide6.QtCore import QLocale, QTranslator
 
-from .config import RINUI_PATH
+from .config import RINUI_RESOURCE_PREFIX
 
 
 class RinUITranslator(QTranslator):
@@ -17,18 +17,22 @@ class RinUITranslator(QTranslator):
         super().__init__(parent)
         self.load(locale or QLocale())
 
-    def load(self, locale: QLocale) -> bool:
+    def load(self, locale: Union[QLocale, str]) -> bool:
         """
         Load translation file for the given locale.
         :param locale: QLocale, the locale to load (eg = QLocale(QLocale.Chinese, QLocale.China), QLocale("zh_CN"))
         :return: bool
         """
-        print(f"🌏 Current locale: {locale.name()}")
-        path = Path(RINUI_PATH) / "RinUI" / "languages" / f"{locale.name()}.qm"
-        if not path.exists():
+        qlocale = locale if isinstance(locale, QLocale) else QLocale(locale)
+        print(f"🌏 Current locale: {qlocale.name()}")
+        path = f"{RINUI_RESOURCE_PREFIX}/languages/{qlocale.name()}.qm"
+        if not super().load(path):
             print(f'Language file "{path}" not found. Fallback to default (en_US)')
-            path = Path(RINUI_PATH) / "RinUI" / "languages" / "en_US.qm"
+            path = f"{RINUI_RESOURCE_PREFIX}/languages/en_US.qm"
             QLocale().setDefault(QLocale("en_US"))
+            loaded = super().load(path)
+        else:
+            loaded = True
 
-        QLocale().setDefault(locale)
-        return super().load(str(path))
+        QLocale().setDefault(qlocale)
+        return loaded
