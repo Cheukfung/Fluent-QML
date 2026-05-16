@@ -43,7 +43,7 @@ def resource_path(relative_path):
 rinui_core_path = Path(__file__).resolve().parent  # RinUI/core 目录
 
 BASE_DIR = Path.cwd().resolve()
-PATH = BASE_DIR / "RinUI" / "config"
+PATH = BASE_DIR / "config"
 RINUI_PATH = resource_path(
     rinui_core_path.parent.parent
 )  # 使用 resource_path 处理路径，等同 ../../

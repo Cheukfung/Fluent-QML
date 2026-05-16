@@ -9,6 +9,7 @@
 /RinUI.files
 /RinUI.includes
 /RinUI/config
+/config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
