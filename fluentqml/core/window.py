@@ -88,9 +88,12 @@ user32 = ctypes.windll.user32
 # 定义必要的 Windows 常量
 WM_NCCALCSIZE = 0x0083
 WM_NCHITTEST = 0x0084
+WM_CANCELMODE = 0x001F
 WM_NCMOUSEMOVE = 0x00A0
 WM_NCLBUTTONDOWN = 0x00A1
 WM_NCLBUTTONUP = 0x00A2
+WM_MOUSEMOVE = 0x0200
+WM_CAPTURECHANGED = 0x0215
 WM_NCMOUSELEAVE = 0x02A2
 WM_SYSCOMMAND = 0x0112
 WM_GETMINMAXINFO = 0x0024
@@ -231,6 +234,7 @@ class WinEventFilter(QAbstractNativeEventFilter):
         self.windows = windows  # 接受多个窗口
         self.hwnds = {}  # 用于存储每个窗口的 hwnd
         self.win_event_manager = win_event_manager
+        self._hovered_maximize_btn_hwnds = set()
 
         for window in self.windows:
             # 使用lambda创建闭包来捕获特定的窗口对象
@@ -269,6 +273,23 @@ class WinEventFilter(QAbstractNativeEventFilter):
         user32.SetWindowPos(
             hwnd, 0, 0, 0, 0, 0, 0x0002 | 0x0001 | 0x0040
         )  # SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED
+
+    def _set_maximize_btn_hovered(self, hwnd: int, hovered: bool) -> None:
+        if not self.win_event_manager:
+            return
+
+        if hovered:
+            if hwnd in self._hovered_maximize_btn_hwnds:
+                return
+            self._hovered_maximize_btn_hwnds.add(hwnd)
+            self.win_event_manager.maximizeBtnHovered.emit(hwnd)
+            return
+
+        if hwnd not in self._hovered_maximize_btn_hwnds:
+            return
+
+        self._hovered_maximize_btn_hwnds.discard(hwnd)
+        self.win_event_manager.maximizeBtnLeave.emit(hwnd)
 
     def _is_in_maximize_btn(
         self, window: QQuickWindow, hwnd: int, screen_x: int, screen_y: int
@@ -419,27 +440,35 @@ class WinEventFilter(QAbstractNativeEventFilter):
                 return False, 0
 
             if message_id == WM_NCMOUSEMOVE:
-                if w_param == HTMAXBUTTON and self.win_event_manager:
-                    self.win_event_manager.maximizeBtnHovered.emit(hwnd_window)
+                if w_param == HTMAXBUTTON:
+                    self._set_maximize_btn_hovered(hwnd_window, True)
                     tme = TRACKMOUSEEVENT()
                     tme.cbSize = ctypes.sizeof(TRACKMOUSEEVENT)
                     tme.dwFlags = 0x00000002 | 0x00000010
                     tme.hwndTrack = hwnd_window
                     tme.dwHoverTime = 0
                     user32.TrackMouseEvent(ctypes.byref(tme))
+                else:
+                    self._set_maximize_btn_hovered(hwnd_window, False)
                 return False, 0
 
-            if message_id == WM_NCMOUSELEAVE:
-                if self.win_event_manager:
-                    self.win_event_manager.maximizeBtnLeave.emit(hwnd_window)
+            if message_id in (
+                WM_NCMOUSELEAVE,
+                WM_MOUSEMOVE,
+                WM_CANCELMODE,
+                WM_CAPTURECHANGED,
+            ):
+                self._set_maximize_btn_hovered(hwnd_window, False)
                 return False, 0
 
             if message_id == WM_NCLBUTTONDOWN and w_param == HTMAXBUTTON:
+                self._set_maximize_btn_hovered(hwnd_window, True)
                 if self.win_event_manager:
                     self.win_event_manager.maximizeBtnPressed.emit(hwnd_window)
                 return True, 0
 
             if message_id == WM_NCLBUTTONUP and w_param == HTMAXBUTTON:
+                self._hovered_maximize_btn_hwnds.discard(hwnd_window)
                 if self.win_event_manager:
                     self.win_event_manager.maximizeBtnReleased.emit(hwnd_window)
                 if is_maximized(hwnd_window):
