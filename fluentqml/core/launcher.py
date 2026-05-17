@@ -66,13 +66,16 @@ class FluentQMLWindow:
         if qml_path is None:
             msg = "QML path must be provided to load the window."
             raise ValueError(msg)
-        self.qml_path = Path(qml_path)
-
-        if self.qml_path.exists():
+        qml_url = QUrl(str(qml_path))
+        if qml_url.scheme() == "qrc":
             self.engine.addImportPath(FLUENTQML_QML_IMPORT_PATH)
+            self.qml_path = qml_url
         else:
-            msg = f"Cannot find QML file: {self.qml_path}"
-            raise FileNotFoundError(msg)
+            self.qml_path = Path(qml_path)
+            if not self.qml_path.exists():
+                msg = f"Cannot find QML file: {self.qml_path}"
+                raise FileNotFoundError(msg)
+            self.engine.addImportPath(FLUENTQML_QML_IMPORT_PATH)
 
         # 主题管理器
         self.engine.rootContext().setContextProperty("ThemeManager", self.theme_manager)
@@ -143,10 +146,10 @@ class FluentQMLWindow:
                 continue
 
             self._apply_macos_window_style(window)
-            effect_type = self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
-            self.theme_manager.apply_backdrop_effect(
-                effect_type
+            effect_type = (
+                self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
             )
+            self.theme_manager.apply_backdrop_effect(effect_type)
             window.visibleChanged.connect(
                 lambda visible, w=window: self._on_macos_window_visible_changed(
                     w, visible
@@ -155,21 +158,25 @@ class FluentQMLWindow:
             window.widthChanged.connect(
                 lambda *_, w=window: self._on_macos_window_width_changed(w)
             )
-            alignment_changed = getattr(window, "macTrafficLightsRightAlignedChanged", None)
+            alignment_changed = getattr(
+                window, "macTrafficLightsRightAlignedChanged", None
+            )
             if alignment_changed:
                 alignment_changed.connect(
                     lambda *_, w=window: self._on_macos_window_width_changed(w)
                 )
 
-    def _on_macos_window_visible_changed(self, window: QQuickWindow, visible: bool) -> None:
+    def _on_macos_window_visible_changed(
+        self, window: QQuickWindow, visible: bool
+    ) -> None:
         if visible and window.property("useNativeMacFrame"):
             window.setProperty("_fluentqmlMacTrafficLightsShiftApplied", False)
             window.setProperty("_fluentqmlMacTrafficLightsShiftRetryCount", 0)
             self._apply_macos_window_style(window)
-            effect_type = self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
-            self.theme_manager.apply_backdrop_effect(
-                effect_type
+            effect_type = (
+                self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
             )
+            self.theme_manager.apply_backdrop_effect(effect_type)
 
     def _on_macos_window_width_changed(self, window: QQuickWindow) -> None:
         if not window.property("useNativeMacFrame"):
@@ -251,12 +258,16 @@ class FluentQMLWindow:
             zoom_button = ns_window.standardWindowButton_(
                 self._mac_appkit.NSWindowZoomButton
             )
-            buttons = [btn for btn in (close_button, minimize_button, zoom_button) if btn]
+            buttons = [
+                btn for btn in (close_button, minimize_button, zoom_button) if btn
+            ]
             if not buttons:
                 return False
 
             # Move the shared container first to preserve native spacing.
-            button_host = close_button.superview() if close_button else buttons[0].superview()
+            button_host = (
+                close_button.superview() if close_button else buttons[0].superview()
+            )
             if button_host:
                 host_frame = button_host.frame()
                 origin_x = host_frame.origin.x + self._mac_traffic_lights_offset_x
@@ -301,10 +312,16 @@ class FluentQMLWindow:
         if path is None:
             msg = "Icon path must be provided."
             raise ValueError(msg)
-        path = Path(path).as_posix()
+        icon_url = QUrl(str(path))
+        if icon_url.scheme() == "qrc":
+            icon_path = f":{icon_url.path()}"
+            window_icon_url = icon_url
+        else:
+            icon_path = Path(path).as_posix()
+            window_icon_url = QUrl.fromLocalFile(icon_path)
         if app_instance and self.root_window is not None:
-            app_instance.setWindowIcon(QIcon(path))  # 设置应用程序图标
-            self.root_window.setProperty("icon", QUrl.fromLocalFile(path))
+            app_instance.setWindowIcon(QIcon(icon_path))  # 设置应用程序图标
+            self.root_window.setProperty("icon", window_icon_url)
         else:
             msg = "Cannot set icon before QApplication is created."
             raise RuntimeError(msg)
@@ -315,10 +332,10 @@ class FluentQMLWindow:
         :return:
         """
         if is_windows():
-            effect_type = self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
-            self.theme_manager.apply_backdrop_effect(
-                effect_type
+            effect_type = (
+                self.theme_manager.get_backdrop_effect() or BackdropEffect.None_.value
             )
+            self.theme_manager.apply_backdrop_effect(effect_type)
             self.theme_manager.apply_window_effects()
 
     # func名称遵循 Qt 命名规范

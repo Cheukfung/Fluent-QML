@@ -48,6 +48,8 @@ path = "fluentqml/__init__.py"
 [tool.hatch.build.targets.sdist]
 include = [
   "fluentqml/**/*",
+  "hatch_build.py",
+  "scripts/build_fluentqml_qrc.py",
   "LICENSE",
   "README.md"
 ]

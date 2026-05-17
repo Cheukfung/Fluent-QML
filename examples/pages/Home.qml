@@ -95,7 +95,7 @@ FluentPage {
                         desc: qsTr("Explore the FluentQML source code and repository."),
                         icon: Theme.isDark() ? Qt.resolvedUrl("../assets/github_light.svg")
                                             : Qt.resolvedUrl("../assets/github.svg"),
-                        url: "https://github.com/Cheukfung/fluentqml"
+                        url: "https://github.com/Cheukfung/Fluent-QML"
                     },
                 ]
                 delegate: LinkClip { }

@@ -2,6 +2,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+import gallery_rc  # noqa: F401
 from PySide6.QtCore import QLocale, QObject, Qt, QTranslator, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtWidgets import QApplication
@@ -12,16 +13,15 @@ from fluentqml import FluentQMLTranslator, FluentQMLWindow, __version__
 
 SCRIPT_DIR = Path(__file__).parent.absolute()
 PROJECT_ROOT = SCRIPT_DIR.parent
+GALLERY_RESOURCE_PREFIX = "qrc:/FluentQMLGallery"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
 class Gallery(FluentQMLWindow):
     def __init__(self):
-        qml_file = SCRIPT_DIR / "gallery.qml"
-        super().__init__(str(qml_file))
-        icon_path = SCRIPT_DIR / "assets" / "gallery.png"
-        self.setIcon(str(icon_path))
+        super().__init__(f"{GALLERY_RESOURCE_PREFIX}/gallery.qml")
+        self.setIcon(f"{GALLERY_RESOURCE_PREFIX}/assets/gallery.png")
 
         self.backend = Backend()
         self.backend.setBackendParent(self)
@@ -57,18 +57,12 @@ class Backend(QObject):
     @Slot(str)
     def setLanguage(self, lang: str):  # sample: zh_CN; en_US
         global ui_translator, translator
-        lang_path = SCRIPT_DIR / "languages" / f"{lang}.qm"
-
-        if not lang_path.exists():
-            print(f"Language file {lang_path} not found. Fallback to default (en_US)")
-            lang = "en_US"
-            lang_path = SCRIPT_DIR / "languages" / f"{lang}.qm"
 
         cfg["language"] = lang
         cfg.save_config()
         ui_translator = FluentQMLTranslator(QLocale(lang))
         translator = QTranslator()
-        translator.load(str(lang_path))
+        translator.load(f":/FluentQMLGallery/languages/{lang}.qm")
         QApplication.instance().removeTranslator(ui_translator)
         QApplication.instance().removeTranslator(translator)
         QApplication.instance().installTranslator(ui_translator)
@@ -88,8 +82,7 @@ if __name__ == "__main__":
     ui_translator = FluentQMLTranslator(QLocale(lang))
     app.installTranslator(ui_translator)
     translator = QTranslator()
-    lang_file = SCRIPT_DIR / "languages" / f"{lang}.qm"
-    if lang_file.exists() and translator.load(str(lang_file)):
+    if translator.load(f":/FluentQMLGallery/languages/{lang}.qm"):
         app.installTranslator(translator)
 
     gallery = Gallery()

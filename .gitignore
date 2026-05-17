@@ -11,6 +11,9 @@
 /RinUI/config
 /config
 
+# Generated Qt resource modules
+/examples/gallery_rc.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

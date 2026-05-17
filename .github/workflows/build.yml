@@ -1,4 +1,4 @@
-name: Build & Release RinUI Gallery
+name: Build & Release FluentQML Gallery
 
 on:
   push:
@@ -18,15 +18,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-pyinstaller:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
           - os: windows-latest
             icon: "examples/assets/gallery.ico"
+            artifact_name: "FluentQMLGallery-Windows-x64-pyinstaller-portable.zip"
           - os: macos-latest
             icon: "examples/assets/gallery.icns"
+            artifact_name: "FluentQMLGallery-macOS-pyinstaller.zip"
 
     steps:
       - name: ⬇️ Checkout code
@@ -46,43 +48,95 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           uv sync
-          uv pip install pyinstaller
 
-      - name: 🔨 Build RinUI Gallery
+      - name: 🧱 Build Gallery QRC
+        run: |
+          uv run python examples/scripts/build_gallery_qrc.py
+
+      - name: 🔨 Build FluentQML Gallery
         shell: bash
         run: |
-          uv run pyinstaller --noconsole \
+          uv run python scripts/package_gallery.py \
             --icon "${{ matrix.icon }}" \
-            --add-data "RinUI:RinUI" \
-            --add-data "examples/assets:assets" \
-            --add-data "examples/components:components" \
-            --add-data "examples/languages:languages" \
-            --add-data "examples/pages:pages" \
-            --add-data "examples/gallery.qml:." \
-            --paths=. \
-            --contents-directory . \
-            --name=RinUIGallery \
-            examples/gallery.py
+            --name FluentQMLGallery
 
       - name: 📦 Create archive
         shell: bash
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             curl -OLk# https://www.stahlworks.com/dev/zip.exe
-            ./zip.exe -r -q "dist/RinUIGallery-Windows.zip" dist/RinUIGallery/*
+            ./zip.exe -r -q "dist/${{ matrix.artifact_name }}" dist/FluentQMLGallery/*
           else
-            cd dist && ditto -c -k --sequesterRsrc --keepParent RinUIGallery.app RinUIGallery-macOS.zip && cd ..
+            cd dist && ditto -c -k --sequesterRsrc --keepParent FluentQMLGallery.app "${{ matrix.artifact_name }}" && cd ..
           fi
           ls -lh dist/
 
       - name: ☁️ Upload artifact
         uses: actions/upload-artifact@v5
         with:
-          name: RinUIGallery-${{ runner.os }}
-          path: dist/RinUIGallery-${{ runner.os }}.zip
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}
+
+  build-nuitka:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: windows
+            arch: x64
+            icon: "examples/assets/gallery.ico"
+            artifact_name: "FluentQMLGallery-Windows-x64-nuitka-portable.zip"
+          - os: macos-15-intel
+            target: macos
+            arch: x64
+            icon: "examples/assets/gallery.icns"
+            artifact_name: "FluentQMLGallery-macOS-x64-nuitka.zip"
+          - os: macos-15
+            target: macos
+            arch: arm64
+            icon: "examples/assets/gallery.icns"
+            artifact_name: "FluentQMLGallery-macOS-arm64-nuitka.zip"
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v5
+
+      - name: 📦 Set up Python & Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: 📦 Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-nuitka-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-nuitka-
+
+      - name: 📦 Install dependencies
+        run: |
+          uv sync
+
+      - name: 🔨 Build FluentQML Gallery with Nuitka
+        shell: bash
+        run: |
+          uv run --with nuitka python scripts/package_gallery_nuitka.py \
+            --target "${{ matrix.target }}" \
+            --arch "${{ matrix.arch }}" \
+            --icon "${{ matrix.icon }}" \
+            --name FluentQMLGallery \
+            --archive \
+            --clean
+
+      - name: ☁️ Upload artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}
 
   release:
-    needs: [build]
+    needs: [build-pyinstaller, build-nuitka]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
 
@@ -116,9 +170,10 @@ jobs:
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: RinUI Gallery ${{ github.ref_name || github.event.inputs.tag }}
+          name: FluentQML Gallery ${{ github.ref_name || github.event.inputs.tag }}
           tag_name: ${{ github.ref_name || github.event.inputs.tag }}
           body_path: changelog.md
-          files: dist/*/RinUIGallery-*.zip
+          overwrite_files: true
+          files: dist/*/FluentQMLGallery-*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
