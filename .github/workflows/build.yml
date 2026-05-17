@@ -164,7 +164,13 @@ jobs:
           if [ -z "$TAG_NAME" ]; then
             TAG_NAME="${{ github.event.inputs.tag }}"
           fi
-          git cliff --latest --tag "$TAG_NAME" --config .git-cliff.toml --github-repo "${{ github.repository }}" --output changelog.md
+          PREVIOUS_TAG="$(git tag --sort=-v:refname | grep -v "^${TAG_NAME}$" | head -n 1 || true)"
+          if [ -n "$PREVIOUS_TAG" ]; then
+            CHANGELOG_RANGE="${PREVIOUS_TAG}..${TAG_NAME}"
+          else
+            CHANGELOG_RANGE="$TAG_NAME"
+          fi
+          git cliff "$CHANGELOG_RANGE" --tag "$TAG_NAME" --config .git-cliff.toml --github-repo "${{ github.repository }}" --output changelog.md
           # cat changelog.md >> $GITHUB_STEP_SUMMARY >> $GITHUB_OUTPUT
 
       - name: 🚀 Create GitHub Release
