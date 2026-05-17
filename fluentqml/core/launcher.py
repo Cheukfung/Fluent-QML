@@ -13,6 +13,16 @@ from .config import FLUENTQML_QML_IMPORT_PATH, BackdropEffect, Theme, is_windows
 from .theme import ThemeManager
 
 
+def _ascii(s) -> str:
+    try:
+        return str(s).encode("ascii", "backslashreplace").decode("ascii")
+    except Exception:
+        try:
+            return repr(s).encode("ascii", "backslashreplace").decode("ascii")
+        except Exception:
+            return ""
+
+
 class FluentQMLWindow:
     def __init__(self, qml_path: Optional[Union[str, Path]] = None):
         """
@@ -41,7 +51,7 @@ class FluentQMLWindow:
         self.qml_path = qml_path
         self._initialized = True
 
-        print("✨ FluentQMLWindow Initializing")
+        print("FluentQMLWindow Initializing")
 
         # 退出清理
         app_instance = QCoreApplication.instance()
@@ -61,7 +71,7 @@ class FluentQMLWindow:
         :return:
         """
         # FluentQML 模块
-        print(f"UI Module Path: {FLUENTQML_QML_IMPORT_PATH}")
+        print("UI Module Path: " + _ascii(FLUENTQML_QML_IMPORT_PATH))
 
         if qml_path is None:
             msg = "QML path must be provided to load the window."
@@ -82,10 +92,10 @@ class FluentQMLWindow:
         try:
             self.engine.load(self.qml_path)
         except Exception as e:
-            print(f"Cannot Load QML file: {e}")
+            print("Cannot Load QML file: " + _ascii(e))
 
         if not self.engine.rootObjects():
-            msg = f"Error loading QML file: {self.qml_path}"
+            msg = "Error loading QML file: " + _ascii(self.qml_path)
             raise RuntimeError(msg)
 
         # 窗口设置
@@ -134,7 +144,7 @@ class FluentQMLWindow:
             import AppKit
             import objc
         except Exception as err:
-            print(f"Cannot enable native macOS titlebar integration: {err}")
+            print("Cannot enable native macOS titlebar integration: " + _ascii(err))
             self._disable_native_mac_frame()
             return
 
@@ -212,7 +222,7 @@ class FluentQMLWindow:
             ns_window.setStyleMask_(style_mask)
             self._schedule_macos_traffic_light_shift(window, retry_count=0)
         except Exception as err:
-            print(f"Failed to apply macOS native titlebar style: {err}")
+            print("Failed to apply macOS native titlebar style: " + _ascii(err))
             window.setProperty("useNativeMacFrame", False)
 
     def _schedule_macos_traffic_light_shift(
@@ -297,7 +307,7 @@ class FluentQMLWindow:
                     )
                 )
         except Exception as err:
-            print(f"Failed to shift macOS traffic lights: {err}")
+            print("Failed to shift macOS traffic lights: " + _ascii(err))
             return False
         else:
             return True
@@ -369,12 +379,12 @@ class FluentQMLWindow:
 
     def _print_startup_info(self) -> None:
         border = "=" * 40
-        print(f"\n{border}")
-        print("✨ FluentQMLWindow Loaded Successfully!")
-        print(f"QML File Path: {self.qml_path}")
-        print(f"Current Theme: {self.theme_manager.current_theme}")
-        print(f"Backdrop Effect: {self.theme_manager.get_backdrop_effect()}")
-        print(f"OS: {sys.platform}")
+        print("\n" + border)
+        print("FluentQMLWindow Loaded Successfully!")
+        print("QML File Path: " + _ascii(self.qml_path))
+        print("Current Theme: " + _ascii(self.theme_manager.current_theme))
+        print("Backdrop Effect: " + _ascii(self.theme_manager.get_backdrop_effect()))
+        print("OS: " + _ascii(sys.platform))
         print(border + "\n")
 
 

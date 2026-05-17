@@ -24,7 +24,7 @@ class FluentQMLTranslator(QTranslator):
         :return: bool
         """
         qlocale = locale if isinstance(locale, QLocale) else QLocale(locale)
-        print(f"🌏 Current locale: {qlocale.name()}")
+        print(f"Current locale: {qlocale.name()}")
         path = f"{FLUENTQML_RESOURCE_PREFIX}/languages/{qlocale.name()}.qm"
         if not super().load(path):
             print(f'Language file "{path}" not found. Fallback to default (en_US)')
