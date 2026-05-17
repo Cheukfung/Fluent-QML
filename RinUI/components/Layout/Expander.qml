@@ -18,7 +18,7 @@ Item {
     enum ExpandDirection { Up, Down }
     property var expandDirection: Expander.Down
     readonly property bool directionUp: root.expandDirection === Expander.Up
-    property real radius: Theme.currentTheme.appearance.windowRadius
+    property real radius: Theme.currentTheme.appearance.smallRadius
 
     property alias header: headerCustom.data
     property string text
@@ -30,6 +30,7 @@ Item {
         headerCustom.implicitWidth + 20 + expandBtn.width
     )
     implicitHeight: headerHeight + (content.height - 2) * expanded
+    height: implicitHeight
 
     // 拦截交互
     MouseArea {
@@ -53,6 +54,7 @@ Item {
             48
         )
         radius: 0
+        borderWidth: 0
 
         RowLayout {
             id: headerCustom
@@ -120,6 +122,7 @@ Item {
                 ? directionUp ? 2 : - 2
                 : directionUp ? height : - height
             radius: 0
+            borderWidth: 0
             opacity: root.enabled ? 1 : 0.65
 
             color: Theme.currentTheme.colors.cardSecondaryColor
@@ -148,13 +151,26 @@ Item {
         NumberAnimation { duration: Utils.animationSpeedExpander; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
     }
 
-    // 圆角裁切
+    // 圆角边框（置顶，防止子元素背景遮住圆角处的边框）
+    Rectangle {
+        z: 999
+        anchors.fill: parent
+        radius: root.radius
+        color: "transparent"
+        border.width: Theme.currentTheme.appearance.borderWidth
+        border.color: Theme.currentTheme.colors.cardBorderColor
+    }
+
+    // 圆角裁切遮罩
+    Rectangle {
+        id: mask
+        anchors.fill: parent
+        radius: root.radius
+        visible: false
+    }
+
     layer.enabled: true
     layer.effect: OpacityMask {
-        maskSource: Rectangle {
-            width: root.width
-            height: root.height
-            radius: root.radius
-        }
+        maskSource: mask
     }
 }
