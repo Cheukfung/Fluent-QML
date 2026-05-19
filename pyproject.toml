@@ -13,7 +13,7 @@ description = "A Fluent Design-like UI library for Qt Quick (QML) based on PySid
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-  "PySide6>=6.9.3",
+  "PySide6==6.9.3",
   "darkdetect~=0.8.0",
   "pyobjc-framework-Cocoa ; sys_platform == 'darwin'",
   "pywin32 ; sys_platform == 'win32'"
@@ -36,7 +36,7 @@ exclude = [
 ]
 
 [tool.hatch.build.hooks.custom]
-dependencies = ["PySide6>=6.9.3"]
+dependencies = ["PySide6==6.9.3"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "LICENSE" = "LICENSE"
