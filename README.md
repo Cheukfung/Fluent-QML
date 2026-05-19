@@ -48,17 +48,7 @@ FluentQML currently adds these changes:
 
 ## Preview
 
-![FluentQML Gallery](docs/img/shot_1.png)
-
-<details>
-<summary>More screenshots</summary>
-
-![Gallery screenshot](docs/img/img.png)
-![Gallery screenshot](docs/img/img_1.png)
-![Gallery screenshot](docs/img/img_2.png)
-![Gallery screenshot](docs/img/img_3.png)
-
-</details>
+![FluentQML Gallery](docs/img/img.png)
 
 ## Installation
 
