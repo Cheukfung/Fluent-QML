@@ -48,6 +48,7 @@ class FluentQMLWindow:
         self._mac_traffic_lights_right_margin = 20
         self._mac_traffic_lights_retry_interval_ms = 50
         self._mac_traffic_lights_max_retries = 8
+        self._mac_traffic_lights_original_y = {}
         self.qml_path = qml_path
         self._initialized = True
 
@@ -168,6 +169,9 @@ class FluentQMLWindow:
             window.widthChanged.connect(
                 lambda *_, w=window: self._on_macos_window_width_changed(w)
             )
+            window.heightChanged.connect(
+                lambda *_, w=window: self._on_macos_window_width_changed(w)
+            )
             alignment_changed = getattr(
                 window, "macTrafficLightsRightAlignedChanged", None
             )
@@ -214,16 +218,31 @@ class FluentQMLWindow:
             # Hide the system title visuals and keep traffic lights in place.
             ns_window.setTitleVisibility_(self._mac_appkit.NSWindowTitleHidden)
             ns_window.setTitlebarAppearsTransparent_(True)
-            # Allow dragging from custom title/content background areas.
-            ns_window.setMovableByWindowBackground_(True)
+            ns_window.setMovableByWindowBackground_(False)
             style_mask = int(ns_window.styleMask()) | int(
                 self._mac_appkit.NSWindowStyleMaskFullSizeContentView
             )
             ns_window.setStyleMask_(style_mask)
-            self._schedule_macos_traffic_light_shift(window, retry_count=0)
+            if window.property("macTrafficLightsRightAligned"):
+                self._queue_macos_traffic_light_repositions(window)
+            else:
+                self._schedule_macos_traffic_light_shift(window, retry_count=0)
         except Exception as err:
             print("Failed to apply macOS native titlebar style: " + _ascii(err))
             window.setProperty("useNativeMacFrame", False)
+
+    def _queue_macos_traffic_light_repositions(self, window: QQuickWindow) -> None:
+        for delay_ms in (0, 50, 150, 300, 600):
+            QTimer.singleShot(
+                delay_ms,
+                lambda w=window: self._force_macos_traffic_light_reposition(w),
+            )
+
+    def _force_macos_traffic_light_reposition(self, window: QQuickWindow) -> None:
+        if not window.property("useNativeMacFrame"):
+            return
+        window.setProperty("_fluentqmlMacTrafficLightsShiftApplied", False)
+        self._schedule_macos_traffic_light_shift(window, retry_count=0)
 
     def _schedule_macos_traffic_light_shift(
         self, window: QQuickWindow, retry_count: int
@@ -274,6 +293,87 @@ class FluentQMLWindow:
             if not buttons:
                 return False
 
+            if window.property("macTrafficLightsRightAligned"):
+                close_frame = close_button.frame()
+                minimize_frame = minimize_button.frame()
+                zoom_frame = zoom_button.frame()
+                spacing = (
+                    minimize_frame.origin.x
+                    - close_frame.origin.x
+                    - close_frame.size.width
+                )
+                if spacing <= 0:
+                    spacing = (
+                        zoom_frame.origin.x
+                        - minimize_frame.origin.x
+                        - minimize_frame.size.width
+                    )
+                if spacing <= 0:
+                    spacing = 8
+
+                button_host = close_button.superview()
+                if not button_host:
+                    return False
+
+                group_width = (
+                    close_frame.size.width
+                    + minimize_frame.size.width
+                    + zoom_frame.size.width
+                    + spacing * 2
+                )
+                parent_view = button_host.superview() or ns_window.contentView()
+                if parent_view:
+                    parent_width = parent_view.bounds().size.width
+                    host_frame = button_host.frame()
+                    if parent_width > host_frame.size.width:
+                        button_host.setFrameOrigin_((0, host_frame.origin.y))
+                        button_host.setFrameSize_(
+                            (parent_width, host_frame.size.height)
+                        )
+
+                host_width = button_host.bounds().size.width
+                if host_width <= group_width and parent_view:
+                    host_width = parent_view.bounds().size.width
+                if host_width <= group_width:
+                    content_view = ns_window.contentView()
+                    if content_view:
+                        host_width = content_view.bounds().size.width
+                start_x = (
+                    host_width - group_width - self._mac_traffic_lights_right_margin
+                )
+                window_key = int(window.winId())
+                original_y = self._mac_traffic_lights_original_y.setdefault(
+                    window_key,
+                    {
+                        "close": close_frame.origin.y,
+                        "minimize": minimize_frame.origin.y,
+                        "zoom": zoom_frame.origin.y,
+                    },
+                )
+                y_offset = self._mac_traffic_lights_offset_down
+
+                close_button.setFrameOrigin_((start_x, original_y["close"] - y_offset))
+                minimize_button.setFrameOrigin_(
+                    (
+                        start_x + close_frame.size.width + spacing,
+                        original_y["minimize"] - y_offset,
+                    )
+                )
+                zoom_button.setFrameOrigin_(
+                    (
+                        start_x
+                        + close_frame.size.width
+                        + spacing
+                        + minimize_frame.size.width
+                        + spacing,
+                        original_y["zoom"] - y_offset,
+                    )
+                )
+                self._refresh_macos_traffic_light_hit_testing(
+                    ns_window, button_host, buttons
+                )
+                return True
+
             # Move the shared container first to preserve native spacing.
             button_host = (
                 close_button.superview() if close_button else buttons[0].superview()
@@ -281,15 +381,6 @@ class FluentQMLWindow:
             if button_host:
                 host_frame = button_host.frame()
                 origin_x = host_frame.origin.x + self._mac_traffic_lights_offset_x
-                if window.property("macTrafficLightsRightAligned"):
-                    content_view = ns_window.contentView()
-                    parent_view = button_host.superview() or content_view
-                    parent_width = parent_view.bounds().size.width
-                    origin_x = (
-                        parent_width
-                        - host_frame.size.width
-                        - self._mac_traffic_lights_right_margin
-                    )
                 button_host.setFrameOrigin_(
                     (
                         origin_x,
@@ -311,6 +402,26 @@ class FluentQMLWindow:
             return False
         else:
             return True
+
+    def _refresh_macos_traffic_light_hit_testing(
+        self, ns_window, button_host, buttons
+    ) -> None:
+        views = [button_host, *buttons]
+        content_view = ns_window.contentView()
+        if content_view:
+            views.append(content_view)
+
+        for view in views:
+            if not view:
+                continue
+            if view.respondsToSelector_("setNeedsLayout:"):
+                view.setNeedsLayout_(True)
+            if view.respondsToSelector_("layoutSubtreeIfNeeded"):
+                view.layoutSubtreeIfNeeded()
+            if view.respondsToSelector_("setNeedsDisplay:"):
+                view.setNeedsDisplay_(True)
+            if view.respondsToSelector_("updateTrackingAreas"):
+                view.updateTrackingAreas()
 
     def setIcon(self, path: Optional[Union[str, Path]] = None) -> None:
         """

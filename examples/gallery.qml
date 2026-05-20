@@ -12,6 +12,7 @@ FluentWindow {
     height: 700
     minimumWidth: 550
     minimumHeight: 400
+    macTrafficLightsRightAligned: true
 
     navigationView.navExpandWidth: 280
 
