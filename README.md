@@ -3,6 +3,11 @@
 <h1>FluentQML</h1>
 <p>Fluent Design components for PySide6 and Qt Quick.</p>
 
+[![Version](https://img.shields.io/badge/version-0.2.5-blue)](https://pypi.org/project/fluentqml/)
+[![Downloads](https://img.shields.io/pypi/dm/fluentqml)](https://pypi.org/project/fluentqml/)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](#installation)
+
 **English** | [中文](./docs/README_zhCN.MD)
 
 </div>
@@ -12,6 +17,8 @@
 > [RinUI](https://github.com/RinLit-233-shiroko/Rin-UI)
 > RinUI is licensed under the MIT License, and the
 > original copyright notice is preserved in this repository's license file.
+
+![FluentQML Gallery](docs/img/img.png)
 
 ## Overview
 
@@ -34,21 +41,6 @@ FluentQML currently adds these changes:
 - QML, fonts, images, and translations compiled into Qt qrc resources for PyPI packages.
 - Cross-platform Python scripts for resource building, Gallery packaging, and releases.
 - Fixes for CalendarDatePicker, Expander rounded corners, page refresh behavior, and config paths.
-
-## Features
-
-- Fluent-style Qt Quick controls for common desktop UI patterns
-- Custom application windows with title bar and navigation layouts
-- Light, dark, and automatic theme switching
-- Theme color and backdrop effect support
-- Fluent System Icons integration
-- Translation resource loading for application localization
-- Gallery examples for controls, layouts, navigation, dialogs, menus, and inputs
-- PyInstaller hook support for packaged applications
-
-## Preview
-
-![FluentQML Gallery](docs/img/img.png)
 
 ## Installation
 
