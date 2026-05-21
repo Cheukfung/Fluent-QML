@@ -3,7 +3,7 @@
 <h1>FluentQML</h1>
 <p>Fluent Design components for PySide6 and Qt Quick.</p>
 
-[![Version](https://img.shields.io/badge/version-0.2.5-blue)](https://pypi.org/project/fluentqml/)
+[![Version](https://img.shields.io/badge/version-0.2.6-blue)](https://pypi.org/project/fluentqml/)
 [![Downloads](https://img.shields.io/pypi/dm/fluentqml)](https://pypi.org/project/fluentqml/)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](#installation)
