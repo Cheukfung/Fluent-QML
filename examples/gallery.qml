@@ -26,9 +26,9 @@ FluentWindow {
     }
 
     // search field
-    titleBarArea: AutoSuggestBox {
+    titleBarCenterArea: AutoSuggestBox {
         id: searchField
-        width: 325
+        width: Math.min(325, parent.width - 24)
         anchors.centerIn: parent
         placeholderText: qsTr("Search controls and samples...")
         model: ItemData.allControls

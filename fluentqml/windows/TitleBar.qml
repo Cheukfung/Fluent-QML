@@ -70,6 +70,8 @@ Item {
     // area
     default property alias content: contentItem.data
     property alias contentHost: contentItem
+    property alias centerContent: centerContentItem.data
+    property alias centerContentHost: centerContentItem
 
 
     height: titleBarHeight
@@ -312,5 +314,12 @@ Item {
                 visible: root.closeVisible
             }
         }
+    }
+
+    Item {
+        id: centerContentItem
+        anchors.fill: parent
+        clip: true
+        z: 3
     }
 }
