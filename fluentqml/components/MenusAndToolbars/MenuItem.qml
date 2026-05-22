@@ -72,32 +72,45 @@ MenuItem {
     }
 
     // 内容 / Content //
-    contentItem: RowLayout {
-        id: row
-        spacing: 16
+    contentItem: Item {
+        id: content
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: (iconWidget.size ? 16 : 0) + (checkable ? indicator.width + 16 : 0)
         anchors.margins: 16
 
+        implicitWidth: (iconWidget.size ? iconWidget.implicitWidth : 0)
+                       + 16
+                       + menuText.implicitWidth
+                       + (shortcutText.visible ? 16 + shortcutText.implicitWidth : 0)
+        implicitHeight: Math.max(menuText.implicitHeight, shortcutText.implicitHeight, iconWidget.implicitHeight)
+
         IconWidget {
             id: iconWidget
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
             size: icon || source ? menuText.font.pixelSize * 1.25 : 0  // 图标大小 / Icon Size
             icon: root.icon.name
             source: root.icon.source
+            visible: size > 0
         }
         Text {
             id: menuText
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+            anchors.left: iconWidget.size ? iconWidget.right : parent.left
+            anchors.leftMargin: 16
+            anchors.right: shortcutText.visible ? shortcutText.left : parent.right
+            anchors.rightMargin: shortcutText.visible ? 16 : 0
+            anchors.verticalCenter: parent.verticalCenter
             typography: Typography.Body
             text: root.text
+            elide: Text.ElideRight
             wrapMode: Text.NoWrap
         }
         Text {
             id: shortcutText
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
             typography: Typography.Caption
             text: root.action ? root.action.shortcut : ""
             color: Theme.currentTheme.colors.textSecondaryColor
