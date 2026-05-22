@@ -64,11 +64,113 @@ Item {
     property var stackView: parent.stackView
 
     property string currentPage: ""  // 当前页面的URL
+    property string previousCurrentPage: ""
+    property bool indicatorAnimating: false
+    property bool indicatorOverlayVisible: false
+    property bool indicatorSuppressHandoff: false
+    property real indicatorAnimationX: 0
+    property real indicatorAnimationY: 0
+    property real indicatorAnimationWidth: 3
+    property real indicatorAnimationHeight: 16
+    property real indicatorPhase1Y: 0
+    property real indicatorPhase1Height: 16
+    property real indicatorPhase2Y: 0
+    property real indicatorPhase2Height: 16
     property bool collapsedByAutoResize: false
     property int cachedOptimalWidth: 280  // 缓存的最优宽度
 
     function isNotOverMinimumWidth() {  // 判断窗口是否小于最小宽度
         return windowWidth < minimumExpandWidth;
+    }
+
+    onCurrentPageChanged: {
+        startIndicatorAnimation(previousCurrentPage, currentPage)
+        previousCurrentPage = currentPage
+    }
+
+    function stopIndicatorAnimation() {
+        indicatorSuppressHandoff = true
+        indicatorSlideAnimation.stop()
+        indicatorSuppressHandoff = false
+        indicatorHandoffTimer.stop()
+        indicatorAnimating = false
+        indicatorOverlayVisible = false
+    }
+
+    function findIndicatorRectInRepeater(repeater, page) {
+        for (let i = 0; i < repeater.count; i++) {
+            let item = repeater.itemAt(i)
+            if (!item) continue
+
+            if (typeof item.indicatorRectForPage === "function") {
+                let itemRect = item.indicatorRectForPage(page)
+                if (itemRect) return itemRect
+            }
+
+            if (item.subItemsRepeater && !item.collapsed) {
+                for (let j = 0; j < item.subItemsRepeater.count; j++) {
+                    let subItem = item.subItemsRepeater.itemAt(j)
+                    if (subItem && typeof subItem.indicatorRectForPage === "function") {
+                        let subItemRect = subItem.indicatorRectForPage(page)
+                        if (subItemRect) return subItemRect
+                    }
+                }
+            }
+        }
+        return null
+    }
+
+    function findIndicatorRect(page) {
+        if (page === "") return null
+        return findIndicatorRectInRepeater(topRepeater, page)
+            || findIndicatorRectInRepeater(mainRepeater, page)
+            || findIndicatorRectInRepeater(bottomRepeater, page)
+    }
+
+    function startIndicatorAnimation(previousPage, nextPage) {
+        if (previousPage === "" || nextPage === "" || String(previousPage) === String(nextPage)) {
+            stopIndicatorAnimation()
+            return
+        }
+
+        let startRect = findIndicatorRect(previousPage)
+        let endRect = findIndicatorRect(nextPage)
+        if (!startRect || !endRect || Math.abs(startRect.x - endRect.x) >= 1) {
+            stopIndicatorAnimation()
+            return
+        }
+
+        let startY = startRect.y
+        let endY = endRect.y
+        let startHeight = startRect.height
+        let endHeight = endRect.height
+        let distance = Math.abs(endY - startY)
+        let stretchedHeight = distance + (endY > startY ? endHeight : startHeight)
+
+        indicatorSuppressHandoff = true
+        indicatorSlideAnimation.stop()
+        indicatorSuppressHandoff = false
+        indicatorHandoffTimer.stop()
+        indicatorAnimationX = endRect.x
+        indicatorAnimationWidth = endRect.width
+        indicatorAnimationY = startY
+        indicatorAnimationHeight = startHeight
+
+        if (endY > startY) {
+            indicatorPhase1Y = startY
+            indicatorPhase1Height = stretchedHeight
+            indicatorPhase2Y = endY
+            indicatorPhase2Height = endHeight
+        } else {
+            indicatorPhase1Y = endY
+            indicatorPhase1Height = stretchedHeight
+            indicatorPhase2Y = endY
+            indicatorPhase2Height = endHeight
+        }
+
+        indicatorAnimating = true
+        indicatorOverlayVisible = true
+        indicatorSlideAnimation.start()
     }
     
     // 获取有效宽度(综合考虑拖拽、固定、动态三种模式)
@@ -364,9 +466,6 @@ Item {
             }
         }
 
-        ScrollBar.vertical: ScrollBar {
-            policy: ScrollBar.AsNeeded
-        }
     }
 
     // Top Separator
@@ -422,9 +521,6 @@ Item {
             }
         }
 
-        ScrollBar.vertical: ScrollBar {
-            policy: ScrollBar.AsNeeded
-        }
     }
 
     // Bottom Separator
@@ -495,9 +591,70 @@ Item {
             }
         }
 
-        ScrollBar.vertical: ScrollBar {
-            policy: ScrollBar.AsNeeded
+    }
+
+    Rectangle {
+        id: slidingIndicator
+        x: navigationBar.indicatorAnimationX
+        y: navigationBar.indicatorAnimationY
+        width: navigationBar.indicatorAnimationWidth
+        height: navigationBar.indicatorAnimationHeight
+        radius: 10
+        color: Theme.currentTheme.colors.primaryColor
+        visible: navigationBar.indicatorOverlayVisible
+        z: 999
+    }
+
+    SequentialAnimation {
+        id: indicatorSlideAnimation
+
+        ParallelAnimation {
+            NumberAnimation {
+                target: navigationBar
+                property: "indicatorAnimationY"
+                to: navigationBar.indicatorPhase1Y
+                duration: 200
+                easing.type: Easing.InCubic
+            }
+            NumberAnimation {
+                target: navigationBar
+                property: "indicatorAnimationHeight"
+                to: navigationBar.indicatorPhase1Height
+                duration: 200
+                easing.type: Easing.InCubic
+            }
         }
+
+        ParallelAnimation {
+            NumberAnimation {
+                target: navigationBar
+                property: "indicatorAnimationY"
+                to: navigationBar.indicatorPhase2Y
+                duration: 400
+                easing.type: Easing.OutQuint
+            }
+            NumberAnimation {
+                target: navigationBar
+                property: "indicatorAnimationHeight"
+                to: navigationBar.indicatorPhase2Height
+                duration: 400
+                easing.type: Easing.OutQuint
+            }
+        }
+
+        onRunningChanged: {
+            if (!running && !navigationBar.indicatorSuppressHandoff) {
+                navigationBar.indicatorAnimating = false
+                indicatorHandoffTimer.restart()
+            }
+        }
+    }
+
+    Timer {
+        id: indicatorHandoffTimer
+        interval: Utils.animationSpeedMiddle
+        repeat: false
+        onTriggered: navigationBar.indicatorOverlayVisible = false
     }
     
     // 拖拽调整区域

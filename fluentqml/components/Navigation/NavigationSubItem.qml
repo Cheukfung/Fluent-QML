@@ -23,6 +23,20 @@ ItemDelegate {
 
     width: parent ? parent.width : 200
 
+    function indicatorRectForPage(page) {
+        return String(itemData.page) === String(page) ? indicatorRectInNavigationBar() : null
+    }
+
+    function indicatorRectInNavigationBar() {
+        let point = indicator.mapToItem(navigationBar, 0, 0)
+        return {
+            x: point.x,
+            y: point.y,
+            width: indicator.width,
+            height: indicator.height
+        }
+    }
+
     background: Rectangle {
         id: itemBg
         anchors.fill: parent
@@ -86,7 +100,7 @@ ItemDelegate {
             x: left.x - 11
             y: root.height / 2 - indicator.height / 2 -2
             currentItemHeight: root.height
-            visible: highlighted ? 1 : 0
+            visible: highlighted && !navigationBar.indicatorAnimating
             width: 3
         }
 

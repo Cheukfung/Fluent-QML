@@ -9,6 +9,7 @@ Item {
     readonly property bool subItem: itemData.subItems ? true : false  // clean console warning
     property var currentPage
     property bool highlighted: String(navigationBar.currentPage) === String(itemData.page) || (collapsed && subItemHighlighted)
+    property alias subItemsRepeater: subItemsRepeater
 
     property bool subItemHighlighted: {
         if (!subItem) return false;
@@ -35,6 +36,27 @@ Item {
 
     height: 40 + (!collapsed && subItem ? subItemsColumn.height : 0)
     width: parent ? parent.width : 200
+
+    function indicatorRectForPage(page) {
+        if (String(itemData.page) === String(page)) return indicatorRectInNavigationBar()
+        if (!collapsed || !subItem) return null
+        for (let i = 0; i < itemData.subItems.length; i++) {
+            if (String(itemData.subItems[i].page) === String(page)) {
+                return indicatorRectInNavigationBar()
+            }
+        }
+        return null
+    }
+
+    function indicatorRectInNavigationBar() {
+        let point = indicator.mapToItem(navigationBar, 0, 0)
+        return {
+            x: point.x,
+            y: point.y,
+            width: indicator.width,
+            height: indicator.height
+        }
+    }
 
     Button {
         id: itemBtn
@@ -111,7 +133,7 @@ Item {
             x: left.x - 11
             y: (itemBtn.height + 3) / 2 - indicator.height / 2 - 2
             currentItemHeight: itemBtn.height + 3
-            visible: highlighted ? 1 : 0
+            visible: highlighted && !navigationBar.indicatorAnimating
             width: 3
         }
 
