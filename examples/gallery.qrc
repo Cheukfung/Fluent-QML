@@ -143,6 +143,7 @@
     <file>pages/Settings.qml</file>
     <file>pages/StatusAndInfo.qml</file>
     <file>pages/Text.qml</file>
+    <file>pages/controls/Acrylic.qml</file>
     <file>pages/controls/AutoSuggestBox.qml</file>
     <file>pages/controls/Avatar.qml</file>
     <file>pages/controls/Button.qml</file>

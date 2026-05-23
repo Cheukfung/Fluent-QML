@@ -66,14 +66,6 @@ Dialog {
         ParallelAnimation {
             NumberAnimation {
                 target: root
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Utils.appearanceSpeed
-                easing.type: Easing.InOutQuart
-            }
-            NumberAnimation {
-                target: root
                 property: "scale"
                 from: 1.1
                 to: 1

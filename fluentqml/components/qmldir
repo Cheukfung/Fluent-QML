@@ -9,6 +9,9 @@ Icon 1.0 Icon.qml
 
 ContextMenu 1.0 ContextMenu.qml
 
+# Materials
+AcrylicPanel 1.0 Materials/AcrylicPanel.qml
+
 
 ScrollBar 1.0 ScrollBar.qml
 ScrollView 1.0 ScrollView.qml

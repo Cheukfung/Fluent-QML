@@ -106,6 +106,9 @@ Icon 1.0 components/Icon.qml
 
 ContextMenu 1.0 components/ContextMenu.qml
 
+# Materials
+AcrylicPanel 1.0 components/Materials/AcrylicPanel.qml
+
 FluentWindow 1.0 windows/FluentWindow.qml
 FluentWindowBase 1.0 windows/FluentWindowBase.qml
 CtrlBtn 1.0 windows/CtrlBtn.qml

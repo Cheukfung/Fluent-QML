@@ -23,6 +23,7 @@ FluentQML 目前有如下特性：
 - 支持 macOS 原生窗口材质：System、HUD、None。
 - 改进 macOS 窗口处理，包括原生标题栏集成和更平滑的窗口拖动。
 - 支持 Windows 11 Snap Layout，自定义窗口也能触发系统贴靠布局。
+- 增加亚克力标签材质展示和 TableView 组件支持。
 - 将 QML、字体、图片和翻译文件编译进 Qt qrc 资源，方便 PyPI 包安装后加载。
 - 发布、资源构建和 Gallery 打包脚本改为跨平台 Python 实现。
 - 修复 CalendarDatePicker、Expander 圆角、页面刷新和配置路径等问题。

@@ -164,14 +164,6 @@ Popup {
         ParallelAnimation {
             NumberAnimation {
                 target: root
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Utils.appearanceSpeed
-                easing.type: Easing.OutQuint
-            }
-            NumberAnimation {
-                target: root
                 property: "height"
                 from: implicitHeight / 2
                 to: implicitHeight

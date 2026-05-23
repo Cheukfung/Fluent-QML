@@ -45,14 +45,6 @@ Menu {
         ParallelAnimation {
             NumberAnimation {
                 target: root
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Utils.animationSpeed
-                easing.type: Easing.InOutQuart
-            }
-            NumberAnimation {
-                target: root
                 property: "height"
                 from: (position === Position.Top || position === Position.Bottom ? 0 : root.implicitHeight)
                 to: root.implicitHeight

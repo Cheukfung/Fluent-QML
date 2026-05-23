@@ -110,14 +110,6 @@ Popup {
         ParallelAnimation {
             NumberAnimation {
                 target: popup
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Utils.appearanceSpeed
-                easing.type: Easing.OutQuint
-            }
-            NumberAnimation {
-                target: popup
                 property: "y"
                 from: posY + (position !== Position.Center
                     ? (position === Position.Top ? 15 : position === Position.Bottom ? -15 : 0) : 0)

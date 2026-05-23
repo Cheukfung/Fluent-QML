@@ -38,6 +38,7 @@ FluentQML currently adds these changes:
 - macOS native window materials: System, HUD, and None.
 - Better macOS window handling, including native title-bar integration and smoother window dragging.
 - Windows 11 Snap Layout support for custom windows.
+- Acrylic label material demo and TableView component support.
 - QML, fonts, images, and translations compiled into Qt qrc resources for PyPI packages.
 - Cross-platform Python scripts for resource building, Gallery packaging, and releases.
 - Fixes for CalendarDatePicker, Expander rounded corners, page refresh behavior, and config paths.

@@ -48,14 +48,6 @@ Popup {
         ParallelAnimation {
             NumberAnimation {
                 target: flyout
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Utils.appearanceSpeed
-                easing.type: Easing.OutQuint
-            }
-            NumberAnimation {
-                target: flyout
                 property: "y"
                 from: posY + (position === Position.Top ? 15 : position === Position.Bottom ? -15 : 0)
                 to: posY

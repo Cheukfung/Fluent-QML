@@ -39,6 +39,14 @@ QtObject {
     // ps: sort by alphabet, 请严格按照字母表顺序添加！！！！！！！！！！！！！ 别乱动
     property var allControls: [
         {
+            icon: Qt.resolvedUrl("controls/Acrylic.png"),
+            title: qsTr("Acrylic"),
+            type: "design",
+            desc: qsTr("A material that blurs a captured snapshot behind a control."),
+            page: Qt.resolvedUrl("../pages/controls/Acrylic.qml"),
+            added: true,
+        },
+        {
             icon: Qt.resolvedUrl("controls/AutoSuggestBox.png"),
             title: qsTr("AutoSuggestBox"),
             type: "text",

@@ -42,6 +42,7 @@
     <file>components/ListAndCollections/SettingCard.qml</file>
     <file>components/ListAndCollections/TableView.qml</file>
     <file>components/ListAndCollections/TableViewDelegate.qml</file>
+    <file>components/Materials/AcrylicPanel.qml</file>
     <file>components/Media/Avatar.qml</file>
     <file>components/MenusAndToolbars/Menu.qml</file>
     <file>components/MenusAndToolbars/MenuBar.qml</file>

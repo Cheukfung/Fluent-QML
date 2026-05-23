@@ -5,12 +5,15 @@ from typing import Optional, Union
 
 from PySide6.QtCore import QCoreApplication, QObject, QTimer, QUrl
 from PySide6.QtGui import QIcon
-from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PySide6.QtQuick import QQuickWindow
 from PySide6.QtWidgets import QApplication
 
+from .acrylic import AcrylicItem
 from .config import FLUENTQML_QML_IMPORT_PATH, BackdropEffect, Theme, is_windows
 from .theme import ThemeManager
+
+qmlRegisterType(AcrylicItem, "FluentQML", 1, 0, "AcrylicItem")
 
 
 def _ascii(s) -> str:

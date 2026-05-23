@@ -85,6 +85,11 @@ FluentWindow {
             icon: "ic_fluent_design_ideas_20_regular",  // 找了半天没找到和WinUIGallery一样的图标(?)
             subItems: [
                 {
+                    title: qsTr("Acrylic"),
+                    page: Qt.resolvedUrl("pages/controls/Acrylic.qml"),
+                    icon: "ic_fluent_square_hint_sparkles_20_regular"
+                },
+                {
                     title: qsTr("Iconography"),
                     page: Qt.resolvedUrl("pages/Iconography.qml"),
                     icon: "ic_fluent_symbols_20_regular"
