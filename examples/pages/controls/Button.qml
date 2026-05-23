@@ -163,4 +163,70 @@ ControlPage {
             ]
         }
     }
+
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
+
+        Text {
+            typography: Typography.BodyStrong
+            text: qsTr("Split buttons keep the main action separate from its menu.")
+        }
+        ControlShowcase {
+            width: parent.width
+            height: 130
+            Column {
+                spacing: 8
+                Row {
+                    spacing: 8
+                    SplitButton {
+                        text: qsTr("Send")
+                        icon.name: "ic_fluent_send_20_regular"
+
+                        MenuItem { text: qsTr("Send later") }
+                        MenuItem { text: qsTr("Schedule draft") }
+                    }
+                    SplitButton {
+                        text: qsTr("Share")
+                        icon.name: "ic_fluent_share_20_regular"
+                        highlighted: true
+
+                        MenuItem { text: qsTr("Copy link") }
+                        MenuItem { text: qsTr("Invite people") }
+                    }
+                    SplitButton {
+                        text: qsTr("More")
+                        icon.name: "ic_fluent_more_horizontal_20_regular"
+                        flat: true
+
+                        MenuItem { text: qsTr("Duplicate") }
+                        MenuItem { text: qsTr("Archive") }
+                    }
+                }
+                Row {
+                    spacing: 8
+                    SplitToolButton {
+                        icon.name: "ic_fluent_arrow_upload_20_regular"
+
+                        MenuItem { text: qsTr("Upload file") }
+                        MenuItem { text: qsTr("Upload folder") }
+                    }
+                    SplitToolButton {
+                        icon.name: "ic_fluent_play_20_regular"
+                        highlighted: true
+
+                        MenuItem { text: qsTr("Run once") }
+                        MenuItem { text: qsTr("Run with log") }
+                    }
+                    SplitToolButton {
+                        icon.name: "ic_fluent_filter_20_regular"
+                        flat: true
+
+                        MenuItem { text: qsTr("Show active") }
+                        MenuItem { text: qsTr("Show completed") }
+                    }
+                }
+            }
+        }
+    }
 }

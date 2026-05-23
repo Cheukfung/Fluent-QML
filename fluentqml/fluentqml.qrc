@@ -16,6 +16,8 @@
     <file>components/BasicInput/RadioButton.qml</file>
     <file>components/BasicInput/RoundButton.qml</file>
     <file>components/BasicInput/Slider.qml</file>
+    <file>components/BasicInput/SplitButton.qml</file>
+    <file>components/BasicInput/SplitToolButton.qml</file>
     <file>components/BasicInput/Switch.qml</file>
     <file>components/BasicInput/ToggleButton.qml</file>
     <file>components/BasicInput/ToolButton.qml</file>

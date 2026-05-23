@@ -19,6 +19,7 @@ Button {
     property bool hoverable: true  // 是否可悬停
     property bool accessibliityIndicator: true  // 是否显示辅助提示
     property string suffixIconName: ""  // 后缀图标
+    property real contentRightInset: 0
 
     readonly property color hoverColor: !highlighted && !flat
         ? Theme.currentTheme.colors.controlSecondaryColor : backgroundColor
@@ -88,6 +89,7 @@ Button {
             id: row
             spacing: 8
             anchors.centerIn: parent
+            anchors.horizontalCenterOffset: -root.contentRightInset / 2
             IconWidget {
                 id: iconWidget
                 property bool isSetedIcon: icon || source.toString()

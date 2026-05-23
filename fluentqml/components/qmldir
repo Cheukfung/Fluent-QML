@@ -19,11 +19,15 @@ ScrollView 1.0 ScrollView.qml
 # Basic Input
 Button 1.0 BasicInput/Button.qml
 RoundButton 1.0 BasicInput/RoundButton.qml
-HyperlinkButton 1.0 BasicInput/HyperlinkButton.qml
+PillButton 1.0 BasicInput/PillButton.qml
+DropDownButton 1.0 BasicInput/DropDownButton.qml
+SplitButton 1.0 BasicInput/SplitButton.qml
+SplitToolButton 1.0 BasicInput/SplitToolButton.qml
 ComboBox 1.0 BasicInput/ComboBox.qml
 Slider 1.0 BasicInput/Slider.qml
 Hyperlink 1.0 BasicInput/Hyperlink.qml
 ToolButton 1.0 BasicInput/ToolButton.qml
+ToggleButton 1.0 BasicInput/ToggleButton.qml
 Switch 1.0 BasicInput/Switch.qml
 RadioButton 1.0 BasicInput/RadioButton.qml
 ColorPicker 1.0 BasicInput/ColorPicker.qml
