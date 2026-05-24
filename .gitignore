@@ -13,6 +13,11 @@
 
 # Generated Qt resource modules
 /examples/gallery_rc.py
+/examples/gallery.qrc
+/examples/gallery.qrc.sha256
+/fluentqml/fluentqml_rc.py
+/fluentqml/fluentqml.qrc
+/fluentqml/fluentqml.qrc.sha256
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

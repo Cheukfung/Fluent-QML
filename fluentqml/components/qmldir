@@ -62,6 +62,7 @@ TextInput 1.0 Text/TextInput.qml
 Text 1.0 Text/Text.qml
 SpinBox 1.0 Text/SpinBox.qml
 AutoSuggestBox 1.0 Text/AutoSuggestBox.qml
+MultiSelectTagInput 1.0 Text/MultiSelectTagInput.qml
 
 # Menus & Toolbars
 Menu 1.0 MenusAndToolbars/Menu.qml

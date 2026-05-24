@@ -194,6 +194,15 @@ QtObject {
             page: Qt.resolvedUrl("../pages/controls/MenuBar.qml"),
         },
         {
+            icon: Qt.resolvedUrl("controls/TextBox.png"),
+            title: qsTr("MultiSelectTagInput"),
+            type: "text",
+            desc: qsTr("A text input that lets users choose multiple values and shows them as removable tags."),
+            page: Qt.resolvedUrl("../pages/controls/MultiSelectTagInput.qml"),
+            added: true,
+            order: 4,
+        },
+        {
             icon: Qt.resolvedUrl("controls/NavigationView.png"),
             title: qsTr("NavigationView"),
             type: "navigation",
