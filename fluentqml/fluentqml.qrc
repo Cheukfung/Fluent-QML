@@ -35,6 +35,7 @@
     <file>components/Icon.qml</file>
     <file>components/Indicator.qml</file>
     <file>components/Layout/Expander.qml</file>
+    <file>components/Layout/ResizablePanel.qml</file>
     <file>components/Layout/SettingExpander.qml</file>
     <file>components/Layout/SettingItem.qml</file>
     <file>components/ListAndCollections/Clip.qml</file>

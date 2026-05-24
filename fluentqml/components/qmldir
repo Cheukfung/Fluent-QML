@@ -47,6 +47,7 @@ Popup 1.0 DialogsAndFlyouts/Popup.qml
 
 # Layout
 Expander 1.0 Layout/Expander.qml
+ResizablePanel 1.0 Layout/ResizablePanel.qml
 
 # Status & Info
 InfoBar 1.0 StatusAndInfo/InfoBar.qml

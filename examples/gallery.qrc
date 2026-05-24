@@ -169,6 +169,7 @@
     <file>pages/controls/ProgressBar.qml</file>
     <file>pages/controls/ProgressRing.qml</file>
     <file>pages/controls/RadioButton.qml</file>
+    <file>pages/controls/ResizablePanel.qml</file>
     <file>pages/controls/RoundButton.qml</file>
     <file>pages/controls/Segmented.qml</file>
     <file>pages/controls/SelectorBar.qml</file>

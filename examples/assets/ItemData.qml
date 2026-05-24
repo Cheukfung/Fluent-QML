@@ -7,12 +7,12 @@ QtObject {
     function getRecentlyAddedItems() {
         return allControls
             .filter(item => item.added)
-            // .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+            .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
     }
     function getRecentlyUpdatedItems() {
         return allControls
             .filter(item => item.updated)
-            // .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+            .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
     }
 
     function getItemsByType(type) {
@@ -45,6 +45,7 @@ QtObject {
             desc: qsTr("A material that blurs a captured snapshot behind a control."),
             page: Qt.resolvedUrl("../pages/controls/Acrylic.qml"),
             added: true,
+            order: 2,
         },
         {
             icon: Qt.resolvedUrl("controls/AutoSuggestBox.png"),
@@ -52,7 +53,6 @@ QtObject {
             type: "text",
             desc: qsTr("A control to provide suggestions as a user is typing."),
             page: Qt.resolvedUrl("../pages/controls/AutoSuggestBox.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/PersonPicture.png"),
@@ -62,7 +62,6 @@ QtObject {
                 "Display a picture of a person/contact."
             ),
             page: Qt.resolvedUrl("../pages/controls/Avatar.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/Button.png"),
@@ -77,7 +76,6 @@ QtObject {
             type: "date&time",
             desc: qsTr("A control that let user pick a date value using a calendar."),
             page: Qt.resolvedUrl("../pages/controls/CalendarDatePicker.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/CalendarView.png"),
@@ -85,7 +83,6 @@ QtObject {
             type: "date&time",
             desc: qsTr("A control that presents a calendar for a user to set choose a date form."),
             page: Qt.resolvedUrl("../pages/controls/CalendarView.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/CheckBox.png"),
@@ -100,7 +97,6 @@ QtObject {
             type: "basicInput",
             desc: qsTr("A control that displays a selectable color spectrum."),
             page: Qt.resolvedUrl("../pages/controls/ColorPicker.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/ComboBox.png"),
@@ -122,7 +118,6 @@ QtObject {
             type: "date&time",
             desc: qsTr("A configurable control that lets a user pick a time value."),
             page: Qt.resolvedUrl("../pages/controls/DatePicker.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/DropDownButton.png"),
@@ -168,7 +163,6 @@ QtObject {
             type: "status&info",
             desc: qsTr("An non-intrusive UI to display notificatons or bring focus to an area"),
             page: Qt.resolvedUrl("../pages/controls/InfoBadge.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/InfoBar.png"),
@@ -213,7 +207,6 @@ QtObject {
             type: "dialogs&flyouts",
             desc: qsTr("A UI element displaying temporary content over exiting interface."),
             page: Qt.resolvedUrl("../pages/controls/Popup.qml"),
-            added: true,
         },
         {
             icon: Qt.resolvedUrl("controls/ProgressBar.png"),
@@ -236,6 +229,15 @@ QtObject {
             type: "basicInput",
             desc: qsTr("A control that allows a user to select a single option from a group of options."),
             page: Qt.resolvedUrl("../pages/controls/RadioButton.qml"),
+        },
+        {
+            icon: Qt.resolvedUrl("controls/SplitView.png"),
+            title: qsTr("ResizablePanel"),
+            type: "layout",
+            desc: qsTr("A layout container with draggable dividers for resizing adjacent panes."),
+            page: Qt.resolvedUrl("../pages/controls/ResizablePanel.qml"),
+            added: true,
+            order: 1,
         },
         {
             icon: Qt.resolvedUrl("controls/Button.png"),
@@ -311,6 +313,7 @@ QtObject {
                 "columns."),
             page: Qt.resolvedUrl("../pages/controls/TableView.qml"),
             added: true,
+            order: 3,
         },
         {
             icon: Qt.resolvedUrl("controls/TextBox.png"),

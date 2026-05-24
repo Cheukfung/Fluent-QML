@@ -42,6 +42,7 @@ TeachingTip 1.0 components/DialogsAndFlyouts/TeachingTip.qml
 
 # Layout
 Expander 1.0 components/Layout/Expander.qml
+ResizablePanel 1.0 components/Layout/ResizablePanel.qml
 SettingExpander 1.0 components/Layout/SettingExpander.qml
 SettingItem 1.0 components/Layout/SettingItem.qml
 
