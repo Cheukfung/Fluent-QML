@@ -325,6 +325,15 @@ QtObject {
             order: 3,
         },
         {
+            icon: Qt.resolvedUrl("controls/TreeView.png"),
+            title: qsTr("TreeView"),
+            type: "collections",
+            desc: qsTr("A control that presents hierarchical data as an expandable tree."),
+            page: Qt.resolvedUrl("../pages/controls/TreeView.qml"),
+            added: true,
+            order: 5,
+        },
+        {
             icon: Qt.resolvedUrl("controls/TextBox.png"),
             title: qsTr("TextArea"),
             type: "text",

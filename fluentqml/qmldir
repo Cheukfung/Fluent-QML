@@ -74,6 +74,9 @@ ListView 1.0 components/ListAndCollections/ListView.qml
 ListViewDelegate 1.0 components/ListAndCollections/ListViewDelegate.qml
 TableView 1.0 components/ListAndCollections/TableView.qml
 TableViewDelegate 1.0 components/ListAndCollections/TableViewDelegate.qml
+TreeView 1.0 components/ListAndCollections/TreeView.qml
+TreeViewDelegate 1.0 components/ListAndCollections/TreeViewDelegate.qml
+CheckableTreeView 1.0 components/ListAndCollections/CheckableTreeView.qml
 
 # Menus & Toolbars
 Menu 1.0 components/MenusAndToolbars/Menu.qml

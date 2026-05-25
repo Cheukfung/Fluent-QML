@@ -85,6 +85,9 @@ Clip 1.0 ListAndCollections/Clip.qml
 ListView 1.0 ListAndCollections/ListView.qml
 ListViewDelegate 1.0 ListAndCollections/ListViewDelegate.qml
 TableViewDelegate 1.0 ListAndCollections/TableViewDelegate.qml
+TreeView 1.0 ListAndCollections/TreeView.qml
+TreeViewDelegate 1.0 ListAndCollections/TreeViewDelegate.qml
+CheckableTreeView 1.0 ListAndCollections/CheckableTreeView.qml
 
 Indicator 1.0 Indicator.qml
 
