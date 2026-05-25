@@ -54,7 +54,7 @@ pip install fluentqml
 本地开发时，可以直接安装当前仓库：
 
 ```bash
-git clone https://github.com/Cheukfung/fluentqml.git
+git clone https://github.com/Cheukfung/Fluent-QML.git
 cd fluentqml
 uv sync
 ```

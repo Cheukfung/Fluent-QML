@@ -7,13 +7,14 @@ FluentPage {
     id: fluentPage
 
     property url docsUrl: "https://ui.rinlit.cn/"
-    property url repoUrl: "https://github.com/Cheukfung/fluentqml"
+    property url repoUrl: "https://github.com/Cheukfung/Fluent-QML"
     property string badgeText: ""
     property string pageName: title
+    property string sourceCodePath: "examples/pages/controls/" + objectName + ".qml"
     property var badgeSeverity: Severity.Info
 
-    function getSourceCodeUrl(pageName) {
-        return `${repoUrl}/tree/master/examples/pages/controls/${pageName}.qml`
+    function getSourceCodeUrl() {
+        return `${repoUrl}/blob/master/${sourceCodePath}`
     }
 
     contentSpacing: 32
@@ -65,7 +66,7 @@ FluentPage {
                 DropDownButton {
                     icon.name: "ic_fluent_code_20_regular"
                     text: qsTr("Source")
-                    onClicked: Qt.openUrlExternally(getSourceCodeUrl(pageName))
+                    onClicked: Qt.openUrlExternally(getSourceCodeUrl())
 
                     ToolTip {
                         delay: 500
@@ -100,7 +101,7 @@ FluentPage {
 
                 ToolButton {
                     icon.name: "ic_fluent_person_feedback_20_regular"
-                    onClicked: Qt.openUrlExternally("https://github.com/Cheukfung/fluentqml/issues/new/choose")
+                    onClicked: Qt.openUrlExternally("https://github.com/Cheukfung/Fluent-QML/issues/new/choose")
 
                     ToolTip {
                         delay: 500

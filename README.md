@@ -54,7 +54,7 @@ pip install fluentqml
 For local development, install this repository in editable mode:
 
 ```bash
-git clone https://github.com/Cheukfung/fluentqml.git
+git clone https://github.com/Cheukfung/Fluent-QML.git
 cd fluentqml
 uv sync
 ```

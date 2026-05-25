@@ -146,7 +146,7 @@ FluentPage {
                 TextInput {
                     id: repoUrl
                     readOnly: true
-                    text: "git clone https://github.com/Cheukfung/fluentqml.git"
+                    text: "git clone https://github.com/Cheukfung/Fluent-QML.git"
                     wrapMode: TextInput.Wrap
                 }
                 ToolButton {
@@ -162,7 +162,7 @@ FluentPage {
 
                 Hyperlink {
                     text: qsTr("Create an issue on GitHub")
-                    openUrl: "https://github.com/Cheukfung/fluentqml/issues/new/choose"
+                    openUrl: "https://github.com/Cheukfung/Fluent-QML/issues/new/choose"
                 }
             }
             SettingItem {
@@ -195,7 +195,7 @@ FluentPage {
 
                 Hyperlink {
                     text: qsTr("MIT License")
-                    openUrl: "https://github.com/Cheukfung/fluentqml/blob/master/LICENSE"
+                    openUrl: "https://github.com/Cheukfung/Fluent-QML/blob/master/LICENSE"
                 }
             }
         }

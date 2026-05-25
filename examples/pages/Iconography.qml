@@ -6,6 +6,7 @@ import "../components"
 
 ControlPage {
     title: "Iconography"
+    sourceCodePath: "examples/pages/Iconography.qml"
 
     property var allIcons: Object.keys(Utils.fontIconIndex)
     property string searchText: ""
