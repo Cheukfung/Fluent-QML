@@ -85,7 +85,7 @@ QtObject {
             page: Qt.resolvedUrl("../pages/controls/CalendarView.qml"),
         },
         {
-            icon: Qt.resolvedUrl("controls/CheckBox.png"),
+            icon: Qt.resolvedUrl("controls/Checkbox.png"),
             title: qsTr("CheckBox"),
             type: "basicInput",
             desc: qsTr("A Control that user can be select or clear."),
