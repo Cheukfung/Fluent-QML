@@ -14,15 +14,16 @@ TabButton {
     background: Rectangle {
         id: background
         anchors.centerIn: parent
-        width: checked ? parent.width : parent.width - 4*2
-        height: checked ? parent.height : parent.height - 3*2
+        width: parent.width - 4*2
+        height: parent.height - 3*2
 
-        color: checked ? Theme.currentTheme.colors.controlFillColor :
-            hovered ? Theme.currentTheme.colors.subtleSecondaryColor : Theme.currentTheme.colors.subtleColor
+        color: checked
+            ? Theme.currentTheme.colors.subtleColor
+            : hovered ? Theme.currentTheme.colors.subtleSecondaryColor : Theme.currentTheme.colors.subtleColor
         radius: Theme.currentTheme.appearance.smallRadius
 
-        border.width: Theme.currentTheme.appearance.borderWidth  // 边框宽度 / Border Width
-        border.color: checked ? Theme.currentTheme.colors.controlBorderColor : "transparent"
+        border.width: 0
+        border.color: "transparent"
 
         Behavior on scale {
             NumberAnimation {
@@ -63,15 +64,6 @@ TabButton {
             }
         }
 
-        Indicator {
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: Theme.currentTheme.appearance.borderWidth
-                horizontalCenter: parent.horizontalCenter
-            }
-            visible: root.checked
-            orientation: Qt.Horizontal
-        }
     }
 
     // 状态变化
