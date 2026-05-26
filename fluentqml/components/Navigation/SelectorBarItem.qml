@@ -44,15 +44,6 @@ TabButton {
             }
         }
 
-        Indicator {
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: Theme.currentTheme.appearance.borderWidth
-                horizontalCenter: parent.horizontalCenter
-            }
-            visible: root.checked
-            orientation: Qt.Horizontal
-        }
     }
 
     // 状态变化
