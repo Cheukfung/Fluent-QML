@@ -97,6 +97,7 @@ SelectorBar 1.0 components/Navigation/SelectorBar.qml
 SelectorBarItem 1.0 components/Navigation/SelectorBarItem.qml
 Segmented 1.0 components/Navigation/Segmented.qml
 SegmentedItem 1.0 components/Navigation/SegmentedItem.qml
+SwipeView 1.0 components/Navigation/SwipeView.qml
 
 
 # Window
