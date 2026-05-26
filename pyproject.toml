@@ -25,6 +25,9 @@ classifiers = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["fluentqml"]
+artifacts = [
+  "fluentqml/fluentqml_rc.py"
+]
 exclude = [
   "fluentqml/**/*.qml",
   "fluentqml/**/qmldir",
