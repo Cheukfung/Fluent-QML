@@ -7,6 +7,7 @@ QtObject {
     property bool exclusive: true
     property var items: []
     property Item checkedItem: null
+    property alias checkedButton: root.checkedItem
     readonly property int checkState: {
         let count = 0;
         for (let b of items)

@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 import gallery_rc  # noqa: F401
-from PySide6.QtCore import QLocale, QObject, Qt, QTranslator, Slot
+from PySide6.QtCore import QCoreApplication, QLocale, QObject, Qt, QTranslator, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtWidgets import QApplication
 
@@ -75,6 +75,8 @@ if __name__ == "__main__":
     QGuiApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     )
+    if sys.platform == "darwin":
+        QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeMenuBar)
     app = QApplication(sys.argv)
 
     # i18n

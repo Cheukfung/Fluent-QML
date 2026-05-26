@@ -1,13 +1,15 @@
 import QtQuick 2.15
-import QtQuick.Controls.Basic 2.15
+import QtQuick.Controls.Basic 2.15 as T
 import "../../components"
 import "../../themes"
 
-MenuBar {
+T.MenuBar {
     id: menuBar
     padding: 4
+    implicitWidth: contentItem ? contentItem.implicitWidth + leftPadding + rightPadding : 0
+    implicitHeight: contentItem ? contentItem.implicitHeight + topPadding + bottomPadding : 40
 
-    delegate: MenuBarItem {
+    delegate: T.MenuBarItem {
         id: menuBarItem
         focusPolicy: Qt.StrongFocus  // to get keyboard focus
 

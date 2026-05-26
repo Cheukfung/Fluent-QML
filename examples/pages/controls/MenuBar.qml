@@ -1,16 +1,16 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import FluentQML
+import FluentQML as F
 import "../../components"
 
 ControlPage {
     id: page
     title: "MenuBar"
 
-    Text {
+    F.Text {
         Layout.fillWidth: true
-        typography: Typography.Body
+        typography: F.Typography.Body
         text: qsTr(
             "The MenuBar simplifies the creation of basic application by providing a set of menus at the top of the app or window. "
         )
@@ -20,47 +20,49 @@ ControlPage {
     Column {
         Layout.fillWidth: true
         spacing: 4
-        Text {
-            typography: Typography.BodyStrong
+        F.Text {
+            typography: F.Typography.BodyStrong
                 text: "A simple MenuBar"
         }
 
-        Frame {
+        F.Frame {
             width: parent.width
-            MenuBar {
-                Menu {
+            height: 76
+            F.MenuBar {
+                anchors.verticalCenter: parent.verticalCenter
+                F.Menu {
                     title: qsTr("File")
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("New")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Open")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Save")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Exit")
                     }
                 }
-                Menu {
+                F.Menu {
                     title: qsTr("Edit")
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Undo")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Cut")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Copy")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Paste")
                     }
                 }
-                Menu {
+                F.Menu {
                     title: qsTr("Help")
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("About")
                     }
                 }
@@ -71,15 +73,17 @@ ControlPage {
     Column {
         Layout.fillWidth: true
         spacing: 4
-        Text {
-            typography: Typography.BodyStrong
+        F.Text {
+            typography: F.Typography.BodyStrong
                 text: qsTr("MenuBar with keyboard accelerators.")
         }
 
-        Frame {
+        F.Frame {
             width: parent.width
-            MenuBar {
-                Menu {
+            height: 76
+            F.MenuBar {
+                anchors.verticalCenter: parent.verticalCenter
+                F.Menu {
                     title: qsTr("File")
                     Action {
                         text: qsTr("New")
@@ -98,7 +102,7 @@ ControlPage {
                         shortcut: "Ctrl+E"
                     }
                 }
-                Menu {
+                F.Menu {
                     title: qsTr("Edit")
                     Action {
                         text: qsTr("Undo")
@@ -117,7 +121,7 @@ ControlPage {
                         shortcut: "Ctrl+V"
                     }
                 }
-                Menu {
+                F.Menu {
                     title: qsTr("Help")
                     Action {
                         text: qsTr("About")
@@ -131,98 +135,100 @@ ControlPage {
     Column {
         Layout.fillWidth: true
         spacing: 4
-        Text {
-            typography: Typography.BodyStrong
+        F.Text {
+            typography: F.Typography.BodyStrong
                 text: qsTr("MenuBar with submenus, separators, and checkable items")
         }
 
-        Frame {
+        F.Frame {
             width: parent.width
-            MenuBar {
-                Menu {
+            height: 76
+            F.MenuBar {
+                anchors.verticalCenter: parent.verticalCenter
+                F.Menu {
                     title: qsTr("File")
-                    Menu {
+                    F.Menu {
                         title: qsTr("New")
-                        MenuItem {
+                        F.MenuItem {
                             text: qsTr("Plain Text Document")
                         }
-                        MenuItem {
+                        F.MenuItem {
                             text: qsTr("Rich Text Document")
                         }
-                        MenuItem {
+                        F.MenuItem {
                             text: qsTr("Other Formats")
                         }
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Open")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Save")
                     }
-                    MenuSeparator {}
-                    MenuItem {
+                    F.MenuSeparator {}
+                    F.MenuItem {
                         text: qsTr("Exit")
                     }
                 }
-                Menu {
+                F.Menu {
                     title: qsTr("Edit")
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Undo")
 
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Cut")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Copy")
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Paste")
                     }
                 }
-                Menu {
+                F.Menu {
                     id: view
                     title: qsTr("View")
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Output")
                     }
-                    MenuSeparator {}
+                    F.MenuSeparator {}
 
                     // 自定义menuitem组 / custom menuitem group like ButtonGroup //
-                    MenuItemGroup {
+                    F.MenuItemGroup {
                         id: orientationGroup
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Landscape")
                         group: orientationGroup
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Portrait")
                         checked: true
                         group: orientationGroup
                     }
 
-                    MenuSeparator {}
-                    MenuItemGroup {
+                    F.MenuSeparator {}
+                    F.MenuItemGroup {
                         id: iconSizeGroup
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Small icons")
                         group: iconSizeGroup
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Medium icons")
                         group: iconSizeGroup
                         checked: true
                     }
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("Large icons")
                         group: iconSizeGroup
                     }
                 }
-                Menu {
+                F.Menu {
                     title: qsTr("Help")
-                    MenuItem {
+                    F.MenuItem {
                         text: qsTr("About")
                     }
                 }

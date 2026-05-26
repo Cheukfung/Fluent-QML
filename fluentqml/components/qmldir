@@ -71,6 +71,12 @@ MenuItem 1.0 MenusAndToolbars/MenuItem.qml
 MenuItemGroup 1.0 MenusAndToolbars/MenuItemGroup.qml
 MenuSeparator 1.0 MenusAndToolbars/MenuSeparator.qml
 ToolSeparator 1.0 MenusAndToolbars/ToolSeparator.qml
+CommandSeparator 1.0 MenusAndToolbars/CommandSeparator.qml
+CommandButton 1.0 MenusAndToolbars/CommandButton.qml
+MoreActionsButton 1.0 MenusAndToolbars/MoreActionsButton.qml
+DropDownToolButton 1.0 MenusAndToolbars/DropDownToolButton.qml
+CommandBar 1.0 MenusAndToolbars/CommandBar.qml
+CommandBarView 1.0 MenusAndToolbars/CommandBarView.qml
 MenuBar 1.0 MenusAndToolbars/MenuBar.qml
 
 # Navigation

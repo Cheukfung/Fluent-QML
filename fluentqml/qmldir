@@ -85,6 +85,12 @@ MenuItem 1.0 components/MenusAndToolbars/MenuItem.qml
 MenuItemGroup 1.0 components/MenusAndToolbars/MenuItemGroup.qml
 MenuSeparator 1.0 components/MenusAndToolbars/MenuSeparator.qml
 ToolSeparator 1.0 components/MenusAndToolbars/ToolSeparator.qml
+CommandSeparator 1.0 components/MenusAndToolbars/CommandSeparator.qml
+CommandButton 1.0 components/MenusAndToolbars/CommandButton.qml
+MoreActionsButton 1.0 components/MenusAndToolbars/MoreActionsButton.qml
+DropDownToolButton 1.0 components/MenusAndToolbars/DropDownToolButton.qml
+CommandBar 1.0 components/MenusAndToolbars/CommandBar.qml
+CommandBarView 1.0 components/MenusAndToolbars/CommandBarView.qml
 MenuBar 1.0 components/MenusAndToolbars/MenuBar.qml
 
 # Media

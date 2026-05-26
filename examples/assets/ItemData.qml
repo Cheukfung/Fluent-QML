@@ -196,6 +196,14 @@ QtObject {
             page: Qt.resolvedUrl("../pages/controls/Menu.qml"),
         },
         {
+            icon: Qt.resolvedUrl("controls/CommandBar.png"),
+            title: qsTr("CommandBar"),
+            type: "menus&toolbars",
+            desc: qsTr("A compact toolbar for app commands, with overflow actions in a menu."),
+            page: Qt.resolvedUrl("../pages/controls/CommandBar.qml"),
+            added: true,
+        },
+        {
             icon: Qt.resolvedUrl("controls/MenuBar.png"),
             title: qsTr("MenuBar"),
             type: "menus&toolbars",
