@@ -302,6 +302,15 @@ QtObject {
             page: Qt.resolvedUrl("../pages/controls/PillButton.qml")
         },
         {
+            icon: Qt.resolvedUrl("controls/PipsPager.png"),
+            title: qsTr("PageIndicator"),
+            type: "navigation",
+            desc: qsTr("A control to navigate through a paginated collection when page numbers do not need to be visually known."),
+            page: Qt.resolvedUrl("../pages/controls/PageIndicator.qml"),
+            added: true,
+            order: 7,
+        },
+        {
             icon: Qt.resolvedUrl("controls/Pivot.png"),
             title: qsTr("Segmented"),
             type: "navigation",

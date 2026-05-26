@@ -79,6 +79,7 @@ NavigationView 1.0 Navigation/NavigationView.qml
 NavigationBar 1.0 Navigation/NavigationBar.qml
 NavigationItem 1.0 Navigation/NavigationItem.qml
 NavigationSubItem 1.0 Navigation/NavigationSubItem.qml
+PageIndicator 1.0 Navigation/PageIndicator.qml
 SwipeView 1.0 Navigation/SwipeView.qml
 
 # ListAndCollections

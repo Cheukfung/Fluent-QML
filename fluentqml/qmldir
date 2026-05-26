@@ -94,6 +94,7 @@ Avatar 1.0 components/Media/Avatar.qml
 BreadcrumbBar 1.0 components/Navigation/BreadcrumbBar.qml
 NavigationView 1.0 components/Navigation/NavigationView.qml
 NavigationBar 1.0 components/Navigation/NavigationBar.qml
+PageIndicator 1.0 components/Navigation/PageIndicator.qml
 SelectorBar 1.0 components/Navigation/SelectorBar.qml
 SelectorBarItem 1.0 components/Navigation/SelectorBarItem.qml
 Segmented 1.0 components/Navigation/Segmented.qml
