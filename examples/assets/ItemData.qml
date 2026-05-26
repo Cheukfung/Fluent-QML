@@ -71,6 +71,15 @@ QtObject {
             page: Qt.resolvedUrl("../pages/controls/Button.qml"),
         },
         {
+            icon: Qt.resolvedUrl("controls/BreadcrumbBar.png"),
+            title: qsTr("BreadcrumbBar"),
+            type: "navigation",
+            desc: qsTr("Shows the current location in a hierarchy and lets users navigate back to parent levels."),
+            page: Qt.resolvedUrl("../pages/controls/BreadcrumbBar.qml"),
+            added: true,
+            order: 6,
+        },
+        {
             icon: Qt.resolvedUrl("controls/CalendarDatePicker.png"),
             title: qsTr("CalendarDatePicker"),
             type: "date&time",
